@@ -1,0 +1,9 @@
+#calendar_objectname QWidget#qt_calendar_prevmonth
+{
+   qproperty-icon:url("chevron-left.svg");
+}
+
+#calendar_objectname QWidget#qt_calendar_nextmonth
+{
+   qproperty-icon:url("chevron-right.svg");
+}

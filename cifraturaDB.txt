@@ -1,0 +1,47 @@
+Mi scuso per la confusione. Se desideri crittografare l'intero database SQLite con una password, 
+puoi utilizzare la libreria sqlcipher. Questa estensione di SQLite fornisce il supporto per la crittografia e la decrittografia del database tramite password.
+
+Ecco come puoi farlo:
+
+Installa la libreria sqlcipher:
+
+Copy code
+pip install pysqlcipher3
+
+Usa sqlcipher per creare e connetterti al database crittografato:
+
+python
+Copy code
+import sqlite3
+from pysqlcipher3 import dbapi2 as sqlcipher
+
+def crea_e_proteggi_database():
+    # 1. Apri una connessione al database (o crea uno nuovo se non esiste)
+    con = sqlite3.connect('tuodatabase.db')
+
+    try:
+        # 2. Imposta la password usando SQLCipher
+        password = "la_tua_password"
+        con.execute(f"ATTACH DATABASE 'encrypted.db' AS encrypted KEY '{password}'")
+        con.execute("SELECT sqlcipher_export('encrypted')")
+        con.execute("DETACH DATABASE encrypted")
+
+        # 3. Esegui i comandi SQL normalmente sul database crittografato
+        con = sqlite3.connect('encrypted.db')
+        con.execute('CREATE TABLE IF NOT EXISTS utenti (id INTEGER PRIMARY KEY, nome TEXT, email TEXT)')
+
+        # Esegui altre operazioni...
+
+        # Fai il commit delle modifiche
+        con.commit()
+
+    except Exception as e:
+        print(f"Errore: {e}")
+    finally:
+        # Chiudi la connessione
+        con.close()
+
+# Chiamare la funzione per creare e proteggere il database
+crea_e_proteggi_database()
+Ricorda che dovrai utilizzare sqlcipher per connetterti al database crittografato in futuro, 
+e la password sarà necessaria per ogni operazione sul database. Assicurati di mantenere la password in un luogo sicuro.
