@@ -25,6 +25,7 @@ from Include.widgets.giornaliero import GiornalieroWidget
 # from Include.widgets.custom import CustomQStackedWidget
 import rc_risorse
 
+# aggiungere manualmente un orario per un progetto
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self, parent=None):
@@ -43,7 +44,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.curs = self.conn.cursor()
         self.conn.row_factory = sqlite3.Row
         createDataBase(self.conn)
-
+        # serve solo a riempire listwidget
         for i in range(5):
             print(i)
             nuovo_giornaliero = GiornalieroWidget(

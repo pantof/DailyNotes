@@ -1,7 +1,10 @@
 # This Python file uses the following encoding: utf-8
-from PySide6 import QtWidgets
+from PySide6.QtWidgets import QDialog
+from Include.uis.dlgs.ui_NewProjectDialog import Ui_Dialog
 
 
-class NewProjectDialog(QtWidgets.QWidget):
+class NewProjectDialog(QDialog):
     def __init__(self):
-        pass
+        super().__init__()
+        self.ui = Ui_Dialog()
+        self.ui.setupUi(self)

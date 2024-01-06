@@ -30,10 +30,10 @@ class Ui_paginaEdit(object):
 
         self.gridLayout.addWidget(self.pushButton_2, 2, 0, 1, 1)
 
-        self.pushButton = QPushButton(paginaEdit)
-        self.pushButton.setObjectName(u"pushButton")
+        self.pushButton_1 = QPushButton(paginaEdit)
+        self.pushButton_1.setObjectName(u"pushButton_1")
 
-        self.gridLayout.addWidget(self.pushButton, 1, 0, 1, 1)
+        self.gridLayout.addWidget(self.pushButton_1, 1, 0, 1, 1)
 
         self.label = QLabel(paginaEdit)
         self.label.setObjectName(u"label")
@@ -54,7 +54,7 @@ class Ui_paginaEdit(object):
     def retranslateUi(self, paginaEdit):
         paginaEdit.setWindowTitle(QCoreApplication.translate("paginaEdit", u"Form", None))
         self.pushButton_2.setText(QCoreApplication.translate("paginaEdit", u"PushButton", None))
-        self.pushButton.setText(QCoreApplication.translate("paginaEdit", u"PushButton", None))
+        self.pushButton_1.setText(QCoreApplication.translate("paginaEdit", u"PushButton", None))
         self.label.setText(QCoreApplication.translate("paginaEdit", u"TextLabel", None))
         self.pushButton_3.setText(QCoreApplication.translate("paginaEdit", u"PushButton", None))
     # retranslateUi
