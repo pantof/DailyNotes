@@ -19,13 +19,14 @@ from Include.func.changeColor import changeSVGColor
 #     pyside6-uic form.ui -o ui_form.py, or
 #     pyside2-uic form.ui -o ui_form.py
 from ui_form import Ui_MainWindow
-from Include.uis.LCDclock.LCDclock import Orologio
+# from Include.uis.LCDclock.LCDclock import Orologio
 from Include.uis.Orologio.DisplayOrologio import DisplayOrologio
 from Include.widgets.giornaliero import GiornalieroWidget
 # from Include.widgets.custom import CustomQStackedWidget
 import rc_risorse
 
 # aggiungere manualmente un orario per un progetto
+
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self, parent=None):

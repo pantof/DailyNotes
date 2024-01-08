@@ -3,6 +3,13 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# Qt-es
+*.pro.user
+*.pro.user.*
+*.qbs.user
+*.qbs.user.*
+
+
 # C extensions
 *.so
 
