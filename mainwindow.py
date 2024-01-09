@@ -174,7 +174,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         pass
 
     def closeEvent(self, event):
-        print("Close Event")
+        # print("Close Event")
         self.writeSettings()
         event.accept()
 
