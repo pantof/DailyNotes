@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'NewProjectDialog.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.6.1
+## Created by: Qt User Interface Compiler version 6.6.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -16,14 +16,14 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QAbstractButton, QApplication, QDialog, QDialogButtonBox,
-    QFormLayout, QGroupBox, QLabel, QLineEdit,
-    QSizePolicy, QVBoxLayout, QWidget)
+    QGridLayout, QGroupBox, QLabel, QLineEdit,
+    QPushButton, QSizePolicy, QVBoxLayout, QWidget)
 
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         if not Dialog.objectName():
             Dialog.setObjectName(u"Dialog")
-        Dialog.resize(307, 190)
+        Dialog.resize(307, 196)
         sizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -36,47 +36,53 @@ class Ui_Dialog(object):
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.groupBox = QGroupBox(Dialog)
         self.groupBox.setObjectName(u"groupBox")
-        self.formLayout_2 = QFormLayout(self.groupBox)
-        self.formLayout_2.setObjectName(u"formLayout_2")
-        self.lineEdit_Equipment = QLineEdit(self.groupBox)
-        self.lineEdit_Equipment.setObjectName(u"lineEdit_Equipment")
+        self.gridLayout = QGridLayout(self.groupBox)
+        self.gridLayout.setObjectName(u"gridLayout")
+        self.label = QLabel(self.groupBox)
+        self.label.setObjectName(u"label")
 
-        self.formLayout_2.setWidget(0, QFormLayout.LabelRole, self.lineEdit_Equipment)
+        self.gridLayout.addWidget(self.label, 0, 1, 1, 1)
 
         self.lineEdit_ON = QLineEdit(self.groupBox)
         self.lineEdit_ON.setObjectName(u"lineEdit_ON")
 
-        self.formLayout_2.setWidget(1, QFormLayout.LabelRole, self.lineEdit_ON)
+        self.gridLayout.addWidget(self.lineEdit_ON, 1, 0, 1, 1)
 
         self.lineEdit_Descrizione = QLineEdit(self.groupBox)
         self.lineEdit_Descrizione.setObjectName(u"lineEdit_Descrizione")
 
-        self.formLayout_2.setWidget(2, QFormLayout.LabelRole, self.lineEdit_Descrizione)
-
-        self.label = QLabel(self.groupBox)
-        self.label.setObjectName(u"label")
-
-        self.formLayout_2.setWidget(0, QFormLayout.FieldRole, self.label)
+        self.gridLayout.addWidget(self.lineEdit_Descrizione, 2, 0, 1, 1)
 
         self.label_2 = QLabel(self.groupBox)
         self.label_2.setObjectName(u"label_2")
 
-        self.formLayout_2.setWidget(1, QFormLayout.FieldRole, self.label_2)
+        self.gridLayout.addWidget(self.label_2, 1, 1, 1, 1)
 
         self.label_3 = QLabel(self.groupBox)
         self.label_3.setObjectName(u"label_3")
 
-        self.formLayout_2.setWidget(2, QFormLayout.FieldRole, self.label_3)
+        self.gridLayout.addWidget(self.label_3, 2, 1, 1, 1)
 
         self.lineEdit_Ore = QLineEdit(self.groupBox)
         self.lineEdit_Ore.setObjectName(u"lineEdit_Ore")
 
-        self.formLayout_2.setWidget(3, QFormLayout.LabelRole, self.lineEdit_Ore)
+        self.gridLayout.addWidget(self.lineEdit_Ore, 3, 0, 1, 1)
 
         self.label_4 = QLabel(self.groupBox)
         self.label_4.setObjectName(u"label_4")
 
-        self.formLayout_2.setWidget(3, QFormLayout.FieldRole, self.label_4)
+        self.gridLayout.addWidget(self.label_4, 3, 1, 1, 1)
+
+        self.lineEdit_Equipment = QLineEdit(self.groupBox)
+        self.lineEdit_Equipment.setObjectName(u"lineEdit_Equipment")
+        self.lineEdit_Equipment.setEnabled(False)
+
+        self.gridLayout.addWidget(self.lineEdit_Equipment, 0, 0, 1, 1)
+
+        self.pushButton = QPushButton(self.groupBox)
+        self.pushButton.setObjectName(u"pushButton")
+
+        self.gridLayout.addWidget(self.pushButton, 0, 2, 1, 1)
 
 
         self.verticalLayout.addWidget(self.groupBox)
@@ -103,5 +109,6 @@ class Ui_Dialog(object):
         self.label_2.setText(QCoreApplication.translate("Dialog", u"ON", None))
         self.label_3.setText(QCoreApplication.translate("Dialog", u"Descrizione", None))
         self.label_4.setText(QCoreApplication.translate("Dialog", u"Ore a disposizione", None))
+        self.pushButton.setText(QCoreApplication.translate("Dialog", u"Cerca", None))
     # retranslateUi
 
