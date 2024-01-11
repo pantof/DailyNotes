@@ -38,6 +38,7 @@ def createDataBase(connection):
         connection.commit()
     except Exception as e:
         print(f"Errore: {e}")
+        return None
     finally:
         # Chiudi la connessione
         curs.close()

@@ -110,8 +110,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         QMessageBox.about(
                         self, "Dayly Note",
                         "<b> &copy; 2023 Filippo De Filippis</b>"
-                        "<br/>The <b>Dayly Note</b> non fa ancora nulla"
-                        "ma lo fa in modo eccezionale.")
+                        "<br/>The <b>Dayly Note</b> "
+                        "Ricordati di chiudere il programma dal tray")
 
     @Slot()
     def setPagina1(self):
@@ -138,7 +138,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         settings.endGroup()
         settings.beginGroup("Database")
         if self.DBName == "":
-            settings.setValue("DatabaseName", "Default.pntf")
+            settings.setValue("DatabaseName", "DefaultName.pntf")
         else:
             settings.setValue("DatabaseName", self.DBName)
         settings.endGroup()
@@ -174,7 +174,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         pass
 
     def closeEvent(self, event):
-        print("Close Event")
+        # print("Close Event")
         self.writeSettings()
         event.accept()
 
