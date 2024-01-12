@@ -23,12 +23,13 @@ class Ui_Dialog(object):
     def setupUi(self, Dialog):
         if not Dialog.objectName():
             Dialog.setObjectName(u"Dialog")
-        Dialog.resize(307, 196)
-        sizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Preferred)
+        Dialog.resize(400, 200)
+        sizePolicy = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(Dialog.sizePolicy().hasHeightForWidth())
         Dialog.setSizePolicy(sizePolicy)
+        Dialog.setMinimumSize(QSize(400, 0))
         font = QFont()
         font.setPointSize(10)
         Dialog.setFont(font)
@@ -109,6 +110,7 @@ class Ui_Dialog(object):
         self.label_2.setText(QCoreApplication.translate("Dialog", u"ON", None))
         self.label_3.setText(QCoreApplication.translate("Dialog", u"Descrizione", None))
         self.label_4.setText(QCoreApplication.translate("Dialog", u"Ore a disposizione", None))
+        self.lineEdit_Equipment.setPlaceholderText(QCoreApplication.translate("Dialog", u"Utilizza la funzione cerca", None))
         self.pushButton.setText(QCoreApplication.translate("Dialog", u"Cerca", None))
     # retranslateUi
 

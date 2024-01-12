@@ -5,6 +5,7 @@ from Include.uis.pagine.ui_paginaEdit import Ui_paginaEdit
 from Include.uis.dlgs.NewProjectDialog import NewProjectDialog
 from Include.uis.dlgs.NuovoClienteDialog import NuovoClienteDialog
 from Include.uis.dlgs.NuovoEquipmentDialog import NuovoEquipmentDialog
+from Include.func.changeColor import changeSVGColor
 
 
 class PaginaEdit(QWidget):
@@ -17,13 +18,13 @@ class PaginaEdit(QWidget):
         self.ui.pushButton_2.clicked.connect(self.lanciaNuovoCliente)
         self.ui.pushButton_3.clicked.connect(self.NuovoEquipment)
 
-
-
     def lanciaNewProject(self):
         newProject = NewProjectDialog()
         newProject.setWindowTitle("Nuovo Progetto")
+        newProject.setWindowIcon(
+            changeSVGColor(":/svg/Include/ico/edit-3.svg"))
         if newProject.exec():
-            print("salva")
+            print("salva")  # controllo inserimento dati
         else:
             print("annulla")
 
@@ -32,3 +33,7 @@ class PaginaEdit(QWidget):
 
     def NuovoEquipment(self):
         pass
+
+    def controlloInserimentoDati(self):
+        pass
+

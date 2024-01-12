@@ -36,6 +36,10 @@
         "Include/uis/dlgs/NuovoEquipmentDialog.py",
         "Include/uis/Orologio/DisplyOrologio.ui",
         "Include/uis/Orologio/DisplayOrologio.py",
-        "Include/models/Abstract/IndirizziModel.py"
+        "Include/models/Abstract/IndirizziModel.py",
+        "Include/obj/tabelle/TabellaIndirizzi.py",
+        "Include/obj/tabelle/TabellaClienti.py",
+        "Include/obj/tabelle/TabellaEquipment.py",
+        "Include/obj/tabelle/TabellaProgetti.py"
     ]
 }
