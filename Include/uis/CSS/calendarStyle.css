@@ -1,9 +1,19 @@
-#calendar_objectname QWidget#qt_calendar_prevmonth
-{
-   qproperty-icon:url("chevron-left.svg");
+QTableView{
+        selection-background-color: darkCyan;
+        alternate-background-color: rgb(120, 120, 120);
+        background-color: rgb(100, 100, 100);
 }
 
-#calendar_objectname QWidget#qt_calendar_nextmonth
-{
-   qproperty-icon:url("chevron-right.svg");
+QTableView QLabel{
+color: darkCyan;
+}
+QTableView::item{
+color:white;
+font:bold;
+}
+QTableView::item:focus{
+color:white;
+}
+QTableView::item:selected{
+color:white;
 }
