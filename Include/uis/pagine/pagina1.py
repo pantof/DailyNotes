@@ -39,7 +39,7 @@ class PaginaHome(QWidget):
             Qt.DayOfWeek.Sunday, self.sundayFormat)
         self.ui.calendarWidget.setWeekdayTextFormat(
             Qt.DayOfWeek.Saturday, self.sundayFormat)
-        self.ui.calendarWidget.setba
+        # self.ui.calendarWidget.setba
         self.ui.calendarWidget.setPalette(calendarPalette)
 
         self.ui.nextMonth.setIcon(
