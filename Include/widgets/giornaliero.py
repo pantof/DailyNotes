@@ -2,6 +2,12 @@
 from Include.widgets.ui_giornaliero import Ui_Form
 from PySide6.QtWidgets import QWidget
 from Include.func.changeColor import changeSVGColor
+"""
+Aggiungere percentuale completamento
+Forse resoconto
+(anche i P hanno gli ON)
+
+"""
 
 
 class GiornalieroWidget(QWidget):
