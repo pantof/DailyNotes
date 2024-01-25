@@ -3,10 +3,10 @@ import sys
 import sqlite3
 
 
-from PySide6.QtWidgets import (QApplication, QMainWindow, QMessageBox, QWidget, QFrame, QSizePolicy, QListWidgetItem, QMenu, QSystemTrayIcon)
+from PySide6.QtWidgets import (QApplication, QMainWindow, QMessageBox, QWidget, QSizePolicy, QListWidgetItem, QMenu, QSystemTrayIcon)
 from PySide6.QtGui import QPalette, QIcon, QColor, QAction
 # , QPixmap, QPainter
-from PySide6.QtCore import QRect, Slot, QSettings, QByteArray
+from PySide6.QtCore import Slot, QSettings, QByteArray
 from PySide6 import QtCore
 
 from Include.uis.pagine.pagina1 import PaginaHome
