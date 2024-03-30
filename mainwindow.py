@@ -185,6 +185,7 @@ if __name__ == "__main__":
     app.setQuitOnLastWindowClosed(False)
     icon = changeSVGColor(":/svg/Include/ico/calendar.svg")
     widget = MainWindow()
+    widget.setWindowIcon(icon)
     palette = QPalette()
     palette.setColor(QPalette.Window, QColor(60, 60, 60))
     palette.setColor(QPalette.Button, QColor(50, 50, 50))
