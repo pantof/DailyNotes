@@ -40,6 +40,8 @@
         "Include/obj/tabelle/TabellaIndirizzi.py",
         "Include/obj/tabelle/TabellaClienti.py",
         "Include/obj/tabelle/TabellaEquipment.py",
-        "Include/obj/tabelle/TabellaProgetti.py"
+        "Include/obj/tabelle/TabellaProgetti.py",
+        "Include/widgets/Dettagli/progetto/Dettaglio_progetto.ui",
+        "Include/widgets/Dettagli/progetto/ui_Dettaglio_progetto.py"
     ]
 }
