@@ -5,24 +5,18 @@ import sqlite3
 
 from PySide6.QtWidgets import (QApplication, QMainWindow, QMessageBox, QWidget, QSizePolicy, QListWidgetItem, QMenu, QSystemTrayIcon)
 from PySide6.QtGui import QPalette, QIcon, QColor, QAction
-# , QPixmap, QPainter
-from PySide6.QtCore import Slot, QSettings, QByteArray
-from PySide6 import QtCore
+from PySide6.QtCore import Slot, QSettings, QByteArray, Qt, QEasingCurve
+#from PySide6 import QtCore
 
 from Include.uis.pagine.pagina1 import PaginaHome
 from Include.uis.pagine.pagina2 import Pagina2
 from Include.uis.pagine.paginaEdit import PaginaEdit
 from Include.func.database import createDataBase
 from Include.func.changeColor import changeSVGColor
-# Important:
-# You need to run the following command to generate the ui_form.py file
-#     pyside6-uic form.ui -o ui_form.py, or
-#     pyside2-uic form.ui -o ui_form.py
 from ui_form import Ui_MainWindow
-# from Include.uis.LCDclock.LCDclock import Orologio
 from Include.uis.Orologio.DisplayOrologio import DisplayOrologio
 from Include.widgets.giornaliero import GiornalieroWidget
-# from Include.widgets.custom import CustomQStackedWidget
+
 import rc_risorse
 
 # aggiungere manualmente un orario per un progetto
@@ -41,10 +35,21 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.create_action()
         self.setupToolBar()
         self.defineTransition()
-        self.conn = sqlite3.connect(self.DBName)
-        self.curs = self.conn.cursor()
-        self.conn.row_factory = sqlite3.Row
-        createDataBase(self.conn)
+
+        #Database connection
+        self.conn = None
+        try:
+            self.conn = sqlite3.connect(self.DBName)
+            #self.curs = self.conn.cursor()
+            self.conn.row_factory = sqlite3.Row
+            createDataBase(self.conn)
+        except sqlite3.Error as e:
+            print(f"Errore nella connessione al database: {e}")
+            QMessageBox.critical(self, "Errore", "Impossibile connettersi al database.")
+        finally:
+            if self.conn:
+                self.conn.close()
+
         # serve solo a riempire listwidget
         for i in range(5):
             print(i)
@@ -52,15 +57,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 f"{i}", f"{i}", f"widget numero {i+1}")
             item = QListWidgetItem()
             item.setSizeHint(nuovo_giornaliero.sizeHint())
-# Impostare l'altezza dell'elemento in base al bottone
+            # Impostare l'altezza dell'elemento in base al bottone
             self.stackedWidget.widget(1).ui.listWidget.addItem(item)
             self.stackedWidget.widget(1).ui.listWidget.setItemWidget(
                 item, nuovo_giornaliero)
 
     def defineTransition(self):
-        self.stackedWidget.setTransitionDirection(QtCore.Qt.Vertical)
+        self.stackedWidget.setTransitionDirection(Qt.Vertical)
         self.stackedWidget.setTransitionSpeed(500)
-        self.stackedWidget.setTransitionEasingCurve(QtCore.QEasingCurve.Linear)
+        self.stackedWidget.setTransitionEasingCurve(QEasingCurve.Linear)
         # ACTIVATE Animation
         self.stackedWidget.setSlideTransition(True)
 
