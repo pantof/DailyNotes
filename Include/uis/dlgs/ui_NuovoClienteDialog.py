@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'NuovoClienteDialog.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.6.1
+## Created by: Qt User Interface Compiler version 6.8.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -23,7 +23,7 @@ class Ui_Dialog(object):
     def setupUi(self, Dialog):
         if not Dialog.objectName():
             Dialog.setObjectName(u"Dialog")
-        Dialog.resize(262, 254)
+        Dialog.resize(262, 273)
         font = QFont()
         font.setPointSize(10)
         Dialog.setFont(font)
@@ -33,60 +33,60 @@ class Ui_Dialog(object):
         self.groupBox.setObjectName(u"groupBox")
         self.formLayout = QFormLayout(self.groupBox)
         self.formLayout.setObjectName(u"formLayout")
-        self.lineEdit = QLineEdit(self.groupBox)
-        self.lineEdit.setObjectName(u"lineEdit")
+        self.lineEdit_Azienda = QLineEdit(self.groupBox)
+        self.lineEdit_Azienda.setObjectName(u"lineEdit_Azienda")
 
-        self.formLayout.setWidget(0, QFormLayout.LabelRole, self.lineEdit)
+        self.formLayout.setWidget(0, QFormLayout.LabelRole, self.lineEdit_Azienda)
 
         self.label = QLabel(self.groupBox)
         self.label.setObjectName(u"label")
 
         self.formLayout.setWidget(0, QFormLayout.FieldRole, self.label)
 
-        self.lineEdit_2 = QLineEdit(self.groupBox)
-        self.lineEdit_2.setObjectName(u"lineEdit_2")
+        self.lineEdit_Nome = QLineEdit(self.groupBox)
+        self.lineEdit_Nome.setObjectName(u"lineEdit_Nome")
 
-        self.formLayout.setWidget(1, QFormLayout.LabelRole, self.lineEdit_2)
+        self.formLayout.setWidget(1, QFormLayout.LabelRole, self.lineEdit_Nome)
 
         self.label_2 = QLabel(self.groupBox)
         self.label_2.setObjectName(u"label_2")
 
         self.formLayout.setWidget(1, QFormLayout.FieldRole, self.label_2)
 
-        self.lineEdit_3 = QLineEdit(self.groupBox)
-        self.lineEdit_3.setObjectName(u"lineEdit_3")
+        self.lineEdit_Cognome = QLineEdit(self.groupBox)
+        self.lineEdit_Cognome.setObjectName(u"lineEdit_Cognome")
 
-        self.formLayout.setWidget(2, QFormLayout.LabelRole, self.lineEdit_3)
+        self.formLayout.setWidget(2, QFormLayout.LabelRole, self.lineEdit_Cognome)
 
         self.label_3 = QLabel(self.groupBox)
         self.label_3.setObjectName(u"label_3")
 
         self.formLayout.setWidget(2, QFormLayout.FieldRole, self.label_3)
 
-        self.lineEdit_4 = QLineEdit(self.groupBox)
-        self.lineEdit_4.setObjectName(u"lineEdit_4")
+        self.lineEdit_Via = QLineEdit(self.groupBox)
+        self.lineEdit_Via.setObjectName(u"lineEdit_Via")
 
-        self.formLayout.setWidget(3, QFormLayout.LabelRole, self.lineEdit_4)
+        self.formLayout.setWidget(3, QFormLayout.LabelRole, self.lineEdit_Via)
 
         self.label_4 = QLabel(self.groupBox)
         self.label_4.setObjectName(u"label_4")
 
         self.formLayout.setWidget(3, QFormLayout.FieldRole, self.label_4)
 
-        self.lineEdit_5 = QLineEdit(self.groupBox)
-        self.lineEdit_5.setObjectName(u"lineEdit_5")
+        self.lineEdit_NAP = QLineEdit(self.groupBox)
+        self.lineEdit_NAP.setObjectName(u"lineEdit_NAP")
 
-        self.formLayout.setWidget(4, QFormLayout.LabelRole, self.lineEdit_5)
+        self.formLayout.setWidget(4, QFormLayout.LabelRole, self.lineEdit_NAP)
 
         self.label_5 = QLabel(self.groupBox)
         self.label_5.setObjectName(u"label_5")
 
         self.formLayout.setWidget(4, QFormLayout.FieldRole, self.label_5)
 
-        self.lineEdit_6 = QLineEdit(self.groupBox)
-        self.lineEdit_6.setObjectName(u"lineEdit_6")
+        self.lineEdit_Comune = QLineEdit(self.groupBox)
+        self.lineEdit_Comune.setObjectName(u"lineEdit_Comune")
 
-        self.formLayout.setWidget(5, QFormLayout.LabelRole, self.lineEdit_6)
+        self.formLayout.setWidget(5, QFormLayout.LabelRole, self.lineEdit_Comune)
 
         self.label_6 = QLabel(self.groupBox)
         self.label_6.setObjectName(u"label_6")
@@ -98,8 +98,8 @@ class Ui_Dialog(object):
 
         self.buttonBox = QDialogButtonBox(Dialog)
         self.buttonBox.setObjectName(u"buttonBox")
-        self.buttonBox.setOrientation(Qt.Horizontal)
-        self.buttonBox.setStandardButtons(QDialogButtonBox.Cancel|QDialogButtonBox.Ok)
+        self.buttonBox.setOrientation(Qt.Orientation.Horizontal)
+        self.buttonBox.setStandardButtons(QDialogButtonBox.StandardButton.Cancel|QDialogButtonBox.StandardButton.Ok)
 
         self.verticalLayout.addWidget(self.buttonBox)
 

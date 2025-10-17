@@ -11,6 +11,9 @@ from Include.func.changeColor import changeSVGColor
 
 class PaginaEdit(QWidget):
     progetto_da_salvare = Signal(dict)
+    cliente_da_salvare = Signal(dict)
+    equipment_da_salvare = Signal(dict)
+
     def __init__(self):
         super().__init__()
         self.ui = Ui_paginaEdit()
@@ -42,10 +45,43 @@ class PaginaEdit(QWidget):
             print("Creazione progetto annullata")
 
     def lanciaNuovoCliente(self):
-        pass
+        """ Lancia il dialogo Nuovo Cliente ed emette il segnale per salvarlo. """
+        newCliente = NuovoClienteDialog()
+        newCliente.setWindowTitle("Nuovo Cliente")
+        newCliente.setWindowIcon(changeSVGColor(":/svg/Include/ico/user-plus.svg"))
+        if newCliente.exec():
+            data = newCliente.get_data()
+            if not data:
+                QMessageBox.critical(self, "Errore", "Errore nei nomi dei widget del dialogo.")
+                return
+            # Validazione: Azienda o Nome/Cognome obbligatori
+            if not data["Azienda"] and (not data["Nome"] or not data["Cognome"]):
+                QMessageBox.warning(self, "Dati Mancanti","È necessario inserire 'Azienda' o 'Nome' e 'Cognome'.")
+                return
+            # Emetti segnale
+            self.cliente_da_salvare.emit(data)
+            QMessageBox.information(self, "Successo", "Nuovo cliente salvato.")
+
+
 
     def NuovoEquipment(self):
-        pass
+        """ Lancia il dialogo Nuovo Equipment ed emette il segnale per salvarlo. """
+        newEquip = NuovoEquipmentDialog()
+        newEquip.setWindowTitle("Nuovo Equipment")
+        newEquip.setWindowIcon(changeSVGColor(":/svg/Include/ico/tool.svg"))
+
+        if newEquip.exec():
+            data = newEquip.get_data()
+            if not data:
+                QMessageBox.critical(self, "Errore", "Errore nei nomi dei widget del dialogo.")
+                return
+            if not data["NumeroEquip"]:
+                QMessageBox.warning(self, "Dati Mancanti","Il 'Numero Equipment' è obbligatorio.")
+                return
+            # Emetti segnale
+            self.equipment_da_salvare.emit(data)
+            QMessageBox.information(self, "Successo", "Nuovo equipment salvato.")
+
 
     def controlloInserimentoDati(self):
         pass

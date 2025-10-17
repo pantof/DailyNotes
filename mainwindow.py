@@ -33,6 +33,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.stackedWidget.insertWidget(1, Pagina2())
         pagina_edit = PaginaEdit()
         pagina_edit.progetto_da_salvare.connect(self.save_new_project)
+        pagina_edit.cliente_da_salvare.connect(self.save_new_client)
+        pagina_edit.equipment_da_salvare.connect(self.save_new_equipment)
         self.stackedWidget.insertWidget(2, pagina_edit)
         #self.stackedWidget.insertWidget(2, PaginaEdit())
         self.stackedWidget.setCurrentIndex(0)
@@ -238,6 +240,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 if conn:
                     conn.close()
 
+
+
     @Slot()
     def about(self):
         QMessageBox.about(
@@ -264,6 +268,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @Slot()
     def settingsMenu(self):
         pass
+
+
 
     def writeSettings(self):
         settings = QSettings("TEST")
@@ -349,6 +355,94 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             print(f"Errore nel salvataggio del progetto: {e}")
             QMessageBox.critical(self, "Errore Database",
                                                      f"Impossibile salvare il progetto: {e}")
+            if conn:
+                conn.rollback()
+        finally:
+            if conn:
+                conn.close()
+
+    @Slot(dict)
+    def save_new_client(self, data):
+        """
+        Salva un nuovo cliente e il suo indirizzo nel database
+        usando una transazione.
+        """
+        print(f"MAINWINDOW: Salvataggio nuovo cliente: {data}")
+        conn = None
+        try:
+            conn = sqlite3.connect(self.DBName)
+            curs = conn.cursor()
+
+            # 1. Inserisci l'indirizzo
+            sql_insert_indirizzo = "INSERT INTO indirizzi (Via, NAP, Comune) VALUES (?, ?, ?)"
+            curs.execute(sql_insert_indirizzo, (data["Via"], data["NAP"], data["Comune"]))
+
+            # 2. Ottieni l'ID dell'indirizzo appena inserito
+            indirizzo_id = curs.lastrowid
+
+            # 3. Inserisci il cliente con l'ID dell'indirizzo
+            sql_insert_cliente = """INSERT INTO clienti (Azienda, Nome, Cognome, indirizzo_id)
+                VALUES (?, ?, ?, ?) """
+            curs.execute(sql_insert_cliente, (
+                            data["Azienda"], data["Nome"], data["Cognome"], indirizzo_id
+                        ))
+
+                        # 4. Conferma la transazione
+            conn.commit()
+            print("Nuovo cliente e indirizzo salvati con successo.")
+
+        except sqlite3.Error as e:
+            print(f"Errore nel salvataggio del cliente: {e}")
+            QMessageBox.critical(self, "Errore Database",
+                                             f"Impossibile salvare il cliente: {e}")
+            if conn:
+                conn.rollback() # Annulla tutto se qualcosa va storto
+        finally:
+            if conn:
+                conn.close()
+
+                # --- AGGIUNGI IL NUOVO SLOT PER L'EQUIPMENT ---
+    @Slot(dict)
+    def save_new_equipment(self, data):
+        """
+        Salva un nuovo equipment e il suo indirizzo nel database
+        usando una transazione.
+        """
+        print(f"MAINWINDOW: Salvataggio nuovo equipment: {data}")
+        conn = None
+        try:
+            conn = sqlite3.connect(self.DBName)
+            curs = conn.cursor()
+
+            # 1. Inserisci l'indirizzo
+            sql_insert_indirizzo = "INSERT INTO indirizzi (Via, NAP, Comune) VALUES (?, ?, ?)"
+            curs.execute(sql_insert_indirizzo, (
+                            data["Via"], data["NAP"], data["Comune"]
+                        ))
+
+            # 2. Ottieni l'ID dell'indirizzo
+            indirizzo_id = curs.lastrowid
+
+                        # 3. Inserisci l'equipment
+                        # (NumeroEquip, indirizzo_id)
+            sql_insert_equip = "INSERT INTO equipment (NumeroEquip, indirizzo_id) VALUES (?, ?)"
+            curs.execute(sql_insert_equip, (
+                            data["NumeroEquip"], indirizzo_id
+                        ))
+
+                        # 4. Conferma
+            conn.commit()
+            print("Nuovo equipment e indirizzo salvati con successo.")
+
+        except sqlite3.IntegrityError as e:
+            print(f"Errore di integrità: {e}")
+            QMessageBox.critical(self, "Errore Database",
+                                             f"Impossibile salvare l'equipment:\n"
+                                             f"Il Numero '{data['NumeroEquip']}' esiste già.")
+        except sqlite3.Error as e:
+            print(f"Errore nel salvataggio dell'equipment: {e}")
+            QMessageBox.critical(self, "Errore Database",
+                                             f"Impossibile salvare l'equipment: {e}")
             if conn:
                 conn.rollback()
         finally:
