@@ -49,18 +49,77 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         finally:
             if self.conn:
                 self.conn.close()
+        pass
 
         # serve solo a riempire listwidget
-        for i in range(5):
-            print(i)
-            nuovo_giornaliero = GiornalieroWidget(
-                f"{i}", f"{i}", f"widget numero {i+1}")
-            item = QListWidgetItem()
-            item.setSizeHint(nuovo_giornaliero.sizeHint())
-            # Impostare l'altezza dell'elemento in base al bottone
-            self.stackedWidget.widget(1).ui.listWidget.addItem(item)
-            self.stackedWidget.widget(1).ui.listWidget.setItemWidget(
-                item, nuovo_giornaliero)
+ #       for i in range(5):
+ #           print(i)
+ #           nuovo_giornaliero = GiornalieroWidget(
+ #               f"{i}", f"{i}", f"widget numero {i+1}")
+ #           item = QListWidgetItem()
+ #           item.setSizeHint(nuovo_giornaliero.sizeHint())
+ #           # Impostare l'altezza dell'elemento in base al bottone
+ #           self.stackedWidget.widget(1).ui.listWidget.addItem(item)
+ #           self.stackedWidget.widget(1).ui.listWidget.setItemWidget(
+ #               item, nuovo_giornaliero)
+    def loadProgettiIntoPagina2(self):
+        """
+        Carica i progetti dal database e li inserisce nella listWidget di Pagina2.
+        """
+        # Ottieni l'istanza della pagina 2
+        pagina2 = self.stackedWidget.widget(1)
+         # Pulisci la lista da elementi precedenti
+        pagina2.ui.listWidget.clear()
+
+        conn = None
+        try:
+            conn = sqlite3.connect(self.DBName)
+            conn.row_factory = sqlite3.Row  # Permette di accedere ai dati per nome colonna
+            curs = conn.cursor()
+
+             # Esegui la query per ottenere tutti i progetti
+             # Selezioniamo i campi che servono al GiornalieroWidget
+            curs.execute("SELECT NumeroON, Descrizione, Equip FROM progetti")
+            elenco_progetti = curs.fetchall()
+
+            if not elenco_progetti:
+                 # (Opzionale) Qui potresti mostrare un messaggio
+                 # in Pagina2 dicendo "Nessun progetto".
+                print("Nessun progetto trovato nel database.")
+                return
+
+             # Itera sui risultati e popola la lista
+            for progetto in elenco_progetti:
+                 # Assicurati che i dati non siano None
+                equip = progetto["Equip"] if progetto["Equip"] else "N/D"
+                np = progetto["NumeroON"] if progetto["NumeroON"] else "N/D"
+                descr = progetto["Descrizione"] if progetto["Descrizione"] else "Nessuna descrizione"
+
+                 # Crea il widget personalizzato
+                nuovo_giornaliero = GiornalieroWidget(
+                    equip=equip,
+                    np=np,
+                    descrizione=descr,
+                    progetto_on=progetto["NumeroON"]  # Passa l'ID del progetto
+                )
+                # --- COLLEGHIAMO I SEGNALI DEL WIDGET AGLI SLOT DI MAINWINDOW ---
+                nuovo_giornaliero.timer_started.connect(self.on_timer_started)
+                nuovo_giornaliero.timer_stopped.connect(self.on_timer_stopped)
+                # -------------------------------------------------------------
+
+                 # Crea il QListWidgetItem e aggiungilo alla lista
+                item = QListWidgetItem()
+                item.setSizeHint(nuovo_giornaliero.sizeHint())
+                pagina2.ui.listWidget.addItem(item)
+                pagina2.ui.listWidget.setItemWidget(item, nuovo_giornaliero)
+
+        except sqlite3.Error as e:
+            print(f"Errore nel caricamento dei progetti: {e}")
+            QMessageBox.critical(self, "Errore Database",
+                                 f"Impossibile caricare i progetti: {e}")
+        finally:
+            if conn:
+                conn.close()
 
     def defineTransition(self):
         self.stackedWidget.setTransitionDirection(Qt.Vertical)
@@ -110,6 +169,72 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             "About &Qt", self, triggered=qApp.aboutQt)
         self.about_Qt_action.setIcon(QIcon(":/png/Include/ico/qt/qt_logo.png"))
 
+        @Slot(str)
+        def on_timer_started(self, progetto_on):
+            """
+            Slot chiamato quando un timer QUALSIASI parte.
+            Qui potresti impedire che altri timer partano.
+            """
+            print(f"MAINWINDOW: Timer avviato per il progetto {progetto_on}")
+            # Per ora, non facciamo nulla, ma potremmo
+            # ciclare su tutti i widget e disabilitare gli altri "Start"
+
+        @Slot(dict)
+        def on_timer_stopped(self, intervento_data):
+            """
+            Slot chiamato quando un timer si ferma.
+            Qui salviamo i dati nel database.
+            """
+            print(f"MAINWINDOW: Timer fermato. Dati ricevuti: {intervento_data}")
+
+            # 1. Prendi la data selezionata dal calendario in Pagina1
+            pagina1 = self.stackedWidget.widget(0)
+            data_selezionata = pagina1.ui.calendarWidget.selectedDate().toString("yyyy-MM-dd")
+
+            conn = None
+            try:
+                conn = sqlite3.connect(self.DBName)
+                curs = conn.cursor()
+
+                # 2. Inserisci il nuovo intervento
+                sql_insert_intervento = """
+                INSERT INTO interventi
+                (progetto_on, data_intervento, ora_inizio, ora_fine, ore_lavorate_decimal)
+                VALUES (?, ?, ?, ?, ?)
+                """
+                curs.execute(sql_insert_intervento, (
+                    intervento_data["progetto_on"],
+                    data_selezionata,
+                    intervento_data["ora_inizio"],
+                    intervento_data["ora_fine"],
+                    intervento_data["ore_lavorate"]
+                ))
+
+                    # 3. Aggiorna il totale 'OreUtilizzate' nella tabella 'progetti'
+                    # Usiamo CAST e IFNULL per gestire il fatto che la colonna è TEXT
+                sql_update_progetto = """
+                UPDATE progetti
+                SET OreUtilizzate = CAST(IFNULL(OreUtilizzate, '0') AS REAL) + ?
+                WHERE NumeroON = ?
+                """
+                curs.execute(sql_update_progetto, (
+                    intervento_data["ore_lavorate"],
+                    intervento_data["progetto_on"]
+                ))
+
+                conn.commit()
+                print("Dati intervento e totale progetto aggiornati con successo.")
+
+            except sqlite3.Error as e:
+                print(f"Errore nel salvataggio dell'intervento: {e}")
+                QMessageBox.critical(self, "Errore Database",
+                                    f"Impossibile salvare l'intervento: {e}")
+                if conn:
+                    conn.rollback()  # Annulla le modifiche in caso di errore
+            finally:
+                if conn:
+                    conn.close()
+
     @Slot()
     def about(self):
         QMessageBox.about(
@@ -125,6 +250,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     @Slot()
     def setPagina2(self):
+        self.loadProgettiIntoPagina2()  # <--
         self.stackedWidget.slideToWidgetIndex(1)
         # self.stackedWidget.setCurrentIndex(1)
 

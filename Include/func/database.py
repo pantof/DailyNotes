@@ -35,6 +35,15 @@ def createDataBase(connection):
                      "PRIMARY KEY(NumeroON) ON CONFLICT REPLACE,"
                      "FOREIGN KEY(Cliente_id) REFERENCES clienti(rowid), "
                      "FOREIGN KEY(Equip) REFERENCES equipment(NumeroEquip));")
+        curs.execute("CREATE TABLE IF NOT EXISTS interventi("
+                     "intervento_id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                     "progetto_on TEXT, "
+                     "data_intervento TEXT, "
+                     "ora_inizio TEXT, "
+                     "ora_fine TEXT, "
+                     "ore_lavorate_decimal REAL, "
+                     "FOREIGN KEY(progetto_on) REFERENCES progetti(NumeroON));")
+
         connection.commit()
     except Exception as e:
         print(f"Errore: {e}")
