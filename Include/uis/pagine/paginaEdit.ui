@@ -14,15 +14,8 @@
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="2" column="0">
-    <widget class="QPushButton" name="pushButton_2">
-     <property name="text">
-      <string>PushButton</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0">
-    <widget class="QPushButton" name="pushButton_1">
+   <item row="4" column="0">
+    <widget class="QPushButton" name="pushButton_3">
      <property name="text">
       <string>PushButton</string>
      </property>
@@ -36,9 +29,16 @@
     </widget>
    </item>
    <item row="3" column="0">
-    <widget class="QPushButton" name="pushButton_3">
+    <widget class="QPushButton" name="pushButton_2">
      <property name="text">
       <string>PushButton</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QPushButton" name="pushButton_1">
+     <property name="text">
+      <string>Inserisci nuovo progetto</string>
      </property>
     </widget>
    </item>
