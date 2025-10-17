@@ -28,9 +28,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.readSettings()
         self.setupWindow()
+
         self.stackedWidget.insertWidget(0, PaginaHome())
         self.stackedWidget.insertWidget(1, Pagina2())
-        self.stackedWidget.insertWidget(2, PaginaEdit())
+        pagina_edit = PaginaEdit()
+        pagina_edit.progetto_da_salvare.connect(self.save_new_project)
+        self.stackedWidget.insertWidget(2, pagina_edit)
+        #self.stackedWidget.insertWidget(2, PaginaEdit())
         self.stackedWidget.setCurrentIndex(0)
         self.create_action()
         self.setupToolBar()
@@ -40,7 +44,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.conn = None
         try:
             self.conn = sqlite3.connect(self.DBName)
-            #self.curs = self.conn.cursor()
             self.conn.row_factory = sqlite3.Row
             createDataBase(self.conn)
         except sqlite3.Error as e:
@@ -296,6 +299,61 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     self.hide()
                 else:
                     self.show()
+
+    @Slot(dict)
+    def save_new_project(self, data):
+        """
+        Slot che riceve i dati da PaginaEdit e li salva nel database.
+        """
+        print(f"MAINWINDOW: Salvataggio nuovo progetto: {data}")
+
+        conn = None
+        try:
+            conn = sqlite3.connect(self.DBName)
+            curs = conn.cursor()
+
+            # La tabella progetti ha 6 colonne:
+            # NumeroON, Descrizione, OreDisponibili, OreUtilizzate, Cliente_id, Equip
+            sql_insert_progetto = """
+                                INSERT INTO progetti
+                                    (NumeroON, Descrizione, OreDisponibili, OreUtilizzate, Cliente_id, Equip)
+                                VALUES (?, ?, ?, ?, ?, ?)
+                                """
+
+            # OreUtilizzate è 0 all'inizio.
+            # Convertiamo OreDisponibili in testo (come da schema)
+            ore_disp_text = str(data["OreDisponibili"]) if data["OreDisponibili"] else "0"
+
+            curs.execute(sql_insert_progetto, (
+                                    data["NumeroON"],
+                                    data["Descrizione"],
+                                    ore_disp_text,
+                                    "0",  # OreUtilizzate
+                                    data["Cliente_id"], # Temporaneamente un testo
+                                    data["Equip"]       # Temporaneamente un testo
+                                ))
+
+            conn.commit()
+            print("Nuovo progetto salvato con successo.")
+
+            # Opzionale: aggiorna la lista in Pagina2 se è già stata caricata
+            # self.loadProgettiIntoPagina2()
+
+        except sqlite3.IntegrityError as e:
+            # Errore comune se il NumeroON è già presente (PRIMARY KEY)
+            print(f"Errore di integrità: {e}")
+            QMessageBox.critical(self, "Errore Database",
+                                                     f"Impossibile salvare il progetto:\n"
+                                                     f"Il Numero ON '{data['NumeroON']}' esiste già.")
+        except sqlite3.Error as e:
+            print(f"Errore nel salvataggio del progetto: {e}")
+            QMessageBox.critical(self, "Errore Database",
+                                                     f"Impossibile salvare il progetto: {e}")
+            if conn:
+                conn.rollback()
+        finally:
+            if conn:
+                conn.close()
 
     @Slot()
     def activateFromMenu(self):
