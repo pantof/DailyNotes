@@ -174,40 +174,40 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             "About &Qt", self, triggered=qApp.aboutQt)
         self.about_Qt_action.setIcon(QIcon(":/png/Include/ico/qt/qt_logo.png"))
 
-        @Slot(str)
-        def on_timer_started(self, progetto_on):
-            """
-            Slot chiamato quando un timer QUALSIASI parte.
-            Qui potresti impedire che altri timer partano.
-            """
-            print(f"MAINWINDOW: Timer avviato per il progetto {progetto_on}")
-            # Per ora, non facciamo nulla, ma potremmo
-            # ciclare su tutti i widget e disabilitare gli altri "Start"
+    @Slot(str)
+    def on_timer_started(self, progetto_on):
+        """
+        Slot chiamato quando un timer QUALSIASI parte.
+        Qui potresti impedire che altri timer partano.
+        """
+        print(f"MAINWINDOW: Timer avviato per il progetto {progetto_on}")
+        # Per ora, non facciamo nulla, ma potremmo
+        # ciclare su tutti i widget e disabilitare gli altri "Start"
 
-        @Slot(dict)
-        def on_timer_stopped(self, intervento_data):
-            """
-            Slot chiamato quando un timer si ferma.
-            Qui salviamo i dati nel database.
-            """
-            print(f"MAINWINDOW: Timer fermato. Dati ricevuti: {intervento_data}")
+    @Slot(dict)
+    def on_timer_stopped(self, intervento_data):
+        """
+        Slot chiamato quando un timer si ferma.
+        Qui salviamo i dati nel database.
+        """
+        print(f"MAINWINDOW: Timer fermato. Dati ricevuti: {intervento_data}")
 
             # 1. Prendi la data selezionata dal calendario in Pagina1
-            pagina1 = self.stackedWidget.widget(0)
-            data_selezionata = pagina1.ui.calendarWidget.selectedDate().toString("yyyy-MM-dd")
+        pagina1 = self.stackedWidget.widget(0)
+        data_selezionata = pagina1.ui.calendarWidget.selectedDate().toString("yyyy-MM-dd")
 
-            conn = None
-            try:
-                conn = sqlite3.connect(self.DBName)
-                curs = conn.cursor()
+        conn = None
+        try:
+            conn = sqlite3.connect(self.DBName)
+            curs = conn.cursor()
 
                 # 2. Inserisci il nuovo intervento
-                sql_insert_intervento = """
+            sql_insert_intervento = """
                 INSERT INTO interventi
                 (progetto_on, data_intervento, ora_inizio, ora_fine, ore_lavorate_decimal)
                 VALUES (?, ?, ?, ?, ?)
                 """
-                curs.execute(sql_insert_intervento, (
+            curs.execute(sql_insert_intervento, (
                     intervento_data["progetto_on"],
                     data_selezionata,
                     intervento_data["ora_inizio"],
@@ -217,28 +217,28 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
                     # 3. Aggiorna il totale 'OreUtilizzate' nella tabella 'progetti'
                     # Usiamo CAST e IFNULL per gestire il fatto che la colonna è TEXT
-                sql_update_progetto = """
+            sql_update_progetto = """
                 UPDATE progetti
                 SET OreUtilizzate = CAST(IFNULL(OreUtilizzate, '0') AS REAL) + ?
                 WHERE NumeroON = ?
                 """
-                curs.execute(sql_update_progetto, (
+            curs.execute(sql_update_progetto, (
                     intervento_data["ore_lavorate"],
                     intervento_data["progetto_on"]
                 ))
 
-                conn.commit()
-                print("Dati intervento e totale progetto aggiornati con successo.")
+            conn.commit()
+            print("Dati intervento e totale progetto aggiornati con successo.")
 
-            except sqlite3.Error as e:
-                print(f"Errore nel salvataggio dell'intervento: {e}")
-                QMessageBox.critical(self, "Errore Database",
+        except sqlite3.Error as e:
+            print(f"Errore nel salvataggio dell'intervento: {e}")
+            QMessageBox.critical(self, "Errore Database",
                                     f"Impossibile salvare l'intervento: {e}")
-                if conn:
-                    conn.rollback()  # Annulla le modifiche in caso di errore
-            finally:
-                if conn:
-                    conn.close()
+            if conn:
+                conn.rollback()  # Annulla le modifiche in caso di errore
+        finally:
+            if conn:
+                conn.close()
 
 
 

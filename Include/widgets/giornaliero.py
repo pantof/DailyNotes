@@ -16,6 +16,7 @@ class GiornalieroWidget(QWidget):
     timer_started = Signal(str)
     # Emetterà un dizionario con i dettagli del lavoro quando il timer si ferma
     timer_stopped = Signal(dict)
+
     def __init__(self, equip="1", np="2", descrizione="Si",progetto_on=None):
         super().__init__()
         self.ui = Ui_Form()
@@ -40,36 +41,36 @@ class GiornalieroWidget(QWidget):
         self.ui.pushButtonStop.clicked.connect(self.stop_timer)
         # ------------------------------------
 
-        @Slot()
-        def start_timer(self):
-            """ Avvia il timer e aggiorna la UI del widget. """
-            self.start_time = QDateTime.currentDateTime()
-            self.is_running = True
+    @Slot()
+    def start_timer(self):
+        """ Avvia il timer e aggiorna la UI del widget. """
+        self.start_time = QDateTime.currentDateTime()
+        self.is_running = True
 
             # Aggiorna UI
-            self.ui.pushButtonStart.setEnabled(False)
-            self.ui.pushButtonStop.setEnabled(True)
-            # (Opzionale) Cambia colore di sfondo per indicare che è attivo
-            self.setStyleSheet("background-color: #556B2F;") # Verde scuro
+        self.ui.pushButtonStart.setEnabled(False)
+        self.ui.pushButtonStop.setEnabled(True)
+        # (Opzionale) Cambia colore di sfondo per indicare che è attivo
+        self.setStyleSheet("background-color: #556B2F;") # Verde scuro
 
             # Emetti il segnale
-            self.timer_started.emit(self.progetto_on)
-            print(f"Timer avviato per {self.progetto_on}")
+        self.timer_started.emit(self.progetto_on)
+        print(f"Timer avviato per {self.progetto_on}")
 
-        @Slot()
-        def stop_timer(self):
-            """ Ferma il timer, calcola la durata e emette i dati. """
-            if not self.is_running:
-                return
+    @Slot()
+    def stop_timer(self):
+        """ Ferma il timer, calcola la durata e emette i dati. """
+        if not self.is_running:
+            return
 
-            end_time = QDateTime.currentDateTime()
-            self.is_running = False
+        end_time = QDateTime.currentDateTime()
+        self.is_running = False
 
             # Calcola durata in ore decimali
-            duration_seconds = self.start_time.secsTo(end_time)
-            duration_hours = duration_seconds / 3600.0  # (es. 1.5 per 1h 30m)
+        duration_seconds = self.start_time.secsTo(end_time)
+        duration_hours = duration_seconds / 3600.0  # (es. 1.5 per 1h 30m)
                      # Prepara il pacchetto di dati da inviare
-            intervento_data = {
+        intervento_data = {
                 "progetto_on": self.progetto_on,
                 "ora_inizio": self.start_time.toString("HH:mm:ss"),
                 "ora_fine": end_time.toString("HH:mm:ss"),
@@ -77,12 +78,12 @@ class GiornalieroWidget(QWidget):
             }
 
             # Resetta la UI
-            self.ui.pushButtonStart.setEnabled(True)
-            self.ui.pushButtonStop.setEnabled(False)
-            self.setStyleSheet("") # Rimuovi lo stile di sfondo
+        self.ui.pushButtonStart.setEnabled(True)
+        self.ui.pushButtonStop.setEnabled(False)
+        self.setStyleSheet("") # Rimuovi lo stile di sfondo
 
             # Emetti il segnale con i dati
-            self.timer_stopped.emit(intervento_data)
-            print(f"Timer fermato per {self.progetto_on}. Durata: {duration_hours:.2f} ore")
+        self.timer_stopped.emit(intervento_data)
+        print(f"Timer fermato per {self.progetto_on}. Durata: {duration_hours:.2f} ore")
 # if __name__ == "__main__":
 #     pass

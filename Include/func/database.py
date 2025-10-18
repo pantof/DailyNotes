@@ -35,6 +35,7 @@ def createDataBase(connection):
                      "PRIMARY KEY(NumeroON) ON CONFLICT REPLACE,"
                      "FOREIGN KEY(Cliente_id) REFERENCES clienti(rowid), "
                      "FOREIGN KEY(Equip) REFERENCES equipment(NumeroEquip));")
+
         curs.execute("CREATE TABLE IF NOT EXISTS interventi("
                      "intervento_id INTEGER PRIMARY KEY AUTOINCREMENT, "
                      "progetto_on TEXT, "
