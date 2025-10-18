@@ -31,7 +31,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.stackedWidget.insertWidget(0, PaginaHome())
         self.stackedWidget.insertWidget(1, Pagina2())
-        pagina_edit = PaginaEdit()
+        pagina_edit = PaginaEdit(db_name=self.DBName)
         pagina_edit.progetto_da_salvare.connect(self.save_new_project)
         pagina_edit.cliente_da_salvare.connect(self.save_new_client)
         pagina_edit.equipment_da_salvare.connect(self.save_new_equipment)

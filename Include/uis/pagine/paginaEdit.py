@@ -1,5 +1,5 @@
 # This Python file uses the following encoding: utf-8
-
+import sqlite3
 from PySide6.QtWidgets import QWidget, QMessageBox
 from PySide6.QtCore import Signal
 from Include.uis.pagine.ui_paginaEdit import Ui_paginaEdit
@@ -14,29 +14,39 @@ class PaginaEdit(QWidget):
     cliente_da_salvare = Signal(dict)
     equipment_da_salvare = Signal(dict)
 
-    def __init__(self):
+    def __init__(self,db_name):
         super().__init__()
         self.ui = Ui_paginaEdit()
-        # self.widgetOrologio. = Orologio()
         self.ui.setupUi(self)
+        self.db_name = db_name
+
         self.ui.pushButton_1.clicked.connect(self.lanciaNewProject)
         self.ui.pushButton_2.clicked.connect(self.lanciaNuovoCliente)
         self.ui.pushButton_3.clicked.connect(self.NuovoEquipment)
 
     def lanciaNewProject(self):
-        newProject = NewProjectDialog()
+        lista_clienti = self.fetch_clienti()
+        lista_equipment = self.fetch_equipment()
+        if not lista_clienti or not lista_equipment:
+            QMessageBox.warning(self, "Dati mancanti",
+                                            "Impossibile creare un progetto.\n"
+                                            "Assicurati di aver inserito almeno un cliente e un equipment.")
+            return
+
+        newProject = NewProjectDialog(lista_clienti, lista_equipment)
         newProject.setWindowTitle("Nuovo Progetto")
         newProject.setWindowIcon(
             changeSVGColor(":/svg/Include/ico/edit-3.svg"))
         if newProject.exec():
             data =newProject.get_data()
             if not data:
-                QMessageBox.critical(self, "Errore", "Errore nei nomi dei widget del dialogo.")
+                QMessageBox.critical(self, "Errore", "Errore nel recupero dati dal dialogo.")
                 return
             if not data["NumeroON"] or not data["Descrizione"]:
                 QMessageBox.warning(self, "Dati Mancanti",
                                     "Numero ON e Descrizione sono obbligatori.")
                 return
+
             self.progetto_da_salvare.emit(data)
             QMessageBox.information(self, "Successo",
                                     f"Progetto {data['NumeroON']} salvato.")
@@ -85,4 +95,44 @@ class PaginaEdit(QWidget):
 
     def controlloInserimentoDati(self):
         pass
+    def fetch_clienti(self):
+        """ Carica i clienti dal DB per il ComboBox. """
+        clienti = []
+        conn = None
+        try:
+            conn = sqlite3.connect(self.db_name)
+            conn.row_factory = sqlite3.Row
+            curs = conn.cursor()
+            # Selezioniamo 'rowid' (l'ID univoco) e un nome da mostrare
+            curs.execute("SELECT rowid, Azienda, Nome, Cognome FROM clienti ORDER BY Azienda, Cognome")
+            for row in curs.fetchall():
+                nome_display = row["Azienda"] if row["Azienda"] else f"{row['Cognome']} {row['Nome']}"
+                clienti.append((row["rowid"], nome_display))
+            return clienti
+        except sqlite3.Error as e:
+            print(f"Errore fetch_clienti: {e}")
+            return [] # Ritorna lista vuota in caso di errore
+        finally:
+            if conn:
+                conn.close()
+
+    def fetch_equipment(self):
+        """ Carica gli equipment dal DB per il ComboBox. """
+        equipment = []
+        conn = None
+        try:
+            conn = sqlite3.connect(self.db_name)
+            conn.row_factory = sqlite3.Row
+            curs = conn.cursor()
+                        # Selezioniamo 'NumeroEquip' (Primary Key)
+            curs.execute("SELECT NumeroEquip FROM equipment ORDER BY NumeroEquip")
+            for row in curs.fetchall():
+                equipment.append((row["NumeroEquip"], row["NumeroEquip"]))
+            return equipment
+        except sqlite3.Error as e:
+            print(f"Errore fetch_equipment: {e}")
+            return []
+        finally:
+            if conn:
+                conn.close()
 

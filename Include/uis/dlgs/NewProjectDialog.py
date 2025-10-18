@@ -4,10 +4,11 @@ from Include.uis.dlgs.ui_NewProjectDialog import Ui_Dialog
 
 
 class NewProjectDialog(QDialog):
-    def __init__(self):
+    def __init__(self, lista_clienti, lista_equipment):
         super().__init__()
         self.ui = Ui_Dialog()
         self.ui.setupUi(self)
+        self.populate_combos(lista_clienti, lista_equipment)
         # --- (Opzionale) Popola i ComboBox ---
                 # Per ora usiamo QLineEdit, ma in futuro
                 # dovresti caricare qui i clienti e gli equipment
@@ -18,35 +19,50 @@ class NewProjectDialog(QDialog):
                 # i QComboBox per clienti e equipment
         pass
 
+
+    def populate_combos(self, lista_clienti, lista_equipment):
+        """ Popola i menu a tendina con i dati. """
+
+        try:
+            self.ui.comboBox_Cliente.clear()
+            for cliente_id, nome_display in lista_clienti:
+                # Mostra 'nome_display' all'utente
+                # Salva 'cliente_id' come dato nascosto
+                self.ui.comboBox_Cliente.addItem(nome_display, userData=cliente_id)
+
+            self.ui.comboBox_Equip.clear()
+            for equip_id, nome_display in lista_equipment:
+                self.ui.comboBox_Equip.addItem(nome_display, userData=equip_id)
+
+        except AttributeError as e:
+            print(f"Errore: Nomi ComboBox in NewProjectDialog.py non corretti! {e}")
+            #print("Assicurati che si chiamino 'comboBox_Cliente' e 'comboBox_Equip' nel file .ui")
+
     def get_data(self):
-         """
-        Recupera i dati dai campi del dialogo e li
-        restituisce come dizionario.
-
-        Presumo i nomi dei widget dal file .ui.
-        Sostituiscili con i nomi effettivi.
         """
-
-                # --- USA I NOMI DEI TUOI WIDGET QUI ---
-                # Ad esempio, se il tuo .ui usa 'lineEdit_ON' per il NumeroON:
-
-                # Presumo che tu abbia:
-                # self.ui.lineEdit_NumeroON
-                # self.ui.textEdit_Descrizione
-                # self.ui.lineEdit_OreDisponibili
-                # self.ui.lineEdit_ClienteID   (Sostituire con ComboBox in futuro)
-                # self.ui.lineEdit_Equip        (Sostituire con ComboBox in futuro)
-
-         try:
+        Recupera i dati dai campi del dialogo, leggendo
+        dagli QComboBox invece che dai QLineEdit.
+        """
+        try:
             data = {
-                        "NumeroON": self.ui.lineEdit_NumeroON.text(),
-                        "Descrizione": self.ui.textEdit_Descrizione.toPlainText(),
-                        "OreDisponibili": self.ui.lineEdit_OreDisponibili.text(),
-                        "Cliente_id": self.ui.lineEdit_ClienteID.text(), # Temporaneo
-                        "Equip": self.ui.lineEdit_Equip.text()             # Temporaneo
+                "NumeroON": self.ui.lineEdit_NumeroON.text(),
+                "Descrizione": self.ui.textEdit_Descrizione.toPlainText(),
+                "OreDisponibili": self.ui.lineEdit_OreDisponibili.text(),
+
+                # Legge l'ID (userData) salvato nel ComboBox
+                "Cliente_id": self.ui.comboBox_Cliente.currentData(),
+                "Equip": self.ui.comboBox_Equip.currentData()
             }
             return data
-         except AttributeError as e:
-            # Errore comune se i nomi dei widget non corrispondono
-            print(f"Errore: Nomi widget in NewProjectDialog.py non corretti! {e}")
+        except AttributeError as e:
+            print(f"Errore: Nomi widget in NewProjectDialog.get_data non corretti! {e}")
             return None
+
+
+
+
+
+
+
+
+
