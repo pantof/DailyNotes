@@ -20,6 +20,8 @@ from PySide6.QtWidgets import (QAbstractSpinBox, QApplication, QCalendarWidget, 
     QSizePolicy, QSpacerItem, QSpinBox, QToolButton,
     QVBoxLayout, QWidget)
 
+from Include.obj.MyCalendarWidget import MyCalendarWidget
+
 class Ui_Pagina01(object):
     def setupUi(self, Pagina01):
         if not Pagina01.objectName():
@@ -107,7 +109,7 @@ class Ui_Pagina01(object):
 
         self.verticalLayout.addLayout(self.horizontalLayout_2)
 
-        self.calendarWidget = QCalendarWidget(Pagina01)
+        self.calendarWidget = MyCalendarWidget(Pagina01)
         self.calendarWidget.setObjectName(u"calendarWidget")
         font2 = QFont()
         font2.setPointSize(14)

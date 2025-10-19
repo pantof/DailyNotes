@@ -43,7 +43,15 @@ def createDataBase(connection):
                      "ora_inizio TEXT, "
                      "ora_fine TEXT, "
                      "ore_lavorate_decimal REAL, "
+                     "Descrizione TEXT, "
                      "FOREIGN KEY(progetto_on) REFERENCES progetti(NumeroON));")
+
+        curs.execute("PRAGMA table_info(interventi)")
+        columns = [col[1] for col in curs.fetchall()]
+        if "Descrizione" not in columns:
+            print("Eseguo migrazione: Aggiungo colonna 'Descrizione' a 'interventi'...")
+            curs.execute("ALTER TABLE interventi ADD COLUMN Descrizione TEXT")
+
 
         connection.commit()
     except Exception as e:

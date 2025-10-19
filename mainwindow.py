@@ -210,15 +210,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 # 2. Inserisci il nuovo intervento
             sql_insert_intervento = """
                 INSERT INTO interventi
-                (progetto_on, data_intervento, ora_inizio, ora_fine, ore_lavorate_decimal)
-                VALUES (?, ?, ?, ?, ?)
+                (progetto_on, data_intervento, ora_inizio, ora_fine, ore_lavorate_decimal, Descrizione)
+                VALUES (?, ?, ?, ?, ?, ?)
                 """
             curs.execute(sql_insert_intervento, (
                     intervento_data["progetto_on"],
                     data_selezionata,
                     intervento_data["ora_inizio"],
                     intervento_data["ora_fine"],
-                    intervento_data["ore_lavorate"]
+                    intervento_data["ore_lavorate"],
+                    None
                 ))
 
                     # 3. Aggiorna il totale 'OreUtilizzate' nella tabella 'progetti'
@@ -261,15 +262,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             # 1. Inserisci il nuovo intervento (segnando 'Manuale' come ora)
             sql_insert_intervento = """
             INSERT INTO interventi
-                (progetto_on, data_intervento, ora_inizio, ora_fine, ore_lavorate_decimal)
-            VALUES (?, ?, ?, ?, ?)
+                (progetto_on, data_intervento, ora_inizio, ora_fine, ore_lavorate_decimal, Descrizione)
+            VALUES (?, ?, ?, ?, ?, ?)
             """
             curs.execute(sql_insert_intervento, (
                 data["progetto_on"],
                 data["data_intervento"],
                 "Manuale",  # Ora inizio
                 "",         # Ora fine
-                data["ore_lavorate"]
+                data["ore_lavorate"],
+                "Intervento manuale"
             ))
 
             # 2. Aggiorna il totale 'OreUtilizzate' nella tabella 'progetti'

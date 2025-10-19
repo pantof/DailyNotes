@@ -56,6 +56,8 @@ class PaginaHome(QWidget):
             changeSVGColor(":/svg/Include/ico/arrow-right.svg"))
         self.ui.prevMonth.setIcon(
             changeSVGColor(":/svg/Include/ico/arrow-left.svg"))
+
+
         self.ui.mesi.currentIndexChanged.connect(self.meseCambiato)
         self.ui.calendarWidget.currentPageChanged.connect(
             self.dataCambiataDaCalendario)
@@ -70,10 +72,14 @@ class PaginaHome(QWidget):
             print("Errore: 'listWidget_Riepilogo' non trovato.")
 
         self.carica_riepilogo_giornaliero()
+        self.update_calendar_markers() # <-- Carica i marcatori all'avvio
+
+
     @Slot()
     def refresh_data(self):
-        """ Slot pubblico per forzare l'aggiornamento del riepilogo. """
+        """ Slot pubblico per forzare l'aggiornamento. """
         self.carica_riepilogo_giornaliero()
+        self.update_calendar_markers()
 
     @Slot()
     def meseCambiato(self):
@@ -101,6 +107,55 @@ class PaginaHome(QWidget):
         self.ui.labelData.setText(
             self.ui.calendarWidget.selectedDate().toString("dd.MM.yyyy"))
         self.carica_riepilogo_giornaliero()
+
+    def fetch_dates_with_entries(self, year, month):
+        """
+                Interroga il DB per trovare i giorni con interventi
+                per un dato mese e anno.
+        """
+        dates = set()
+        start_date = f"{year}-{month:02d}-01"
+        end_date = f"{year}-{month:02d}-31" # Va bene anche per mesi più corti
+        conn = None
+        try:
+            conn = sqlite3.connect(self.db_name)
+            # Ottieni solo le date uniche (DISTINCT)
+            sql = """
+                    SELECT DISTINCT data_intervento
+                    FROM interventi
+                    WHERE data_intervento BETWEEN ? AND ?
+            """
+            curs = conn.cursor()
+            curs.execute(sql, (start_date, end_date))
+
+            for row in curs.fetchall():
+                dates.add(QDate.fromString(row[0], "yyyy-MM-dd"))
+                return dates
+
+        except sqlite3.Error as e:
+            print(f"Errore fetch_dates_with_entries: {e}")
+            return dates
+        finally:
+            if conn:
+                conn.close()
+
+    def update_calendar_markers(self):
+        """
+        Recupera le date con interventi per il mese corrente
+        e le passa al widget calendario.
+        """
+        year = self.ui.calendarWidget.yearShown()
+        month = self.ui.calendarWidget.monthShown()
+
+        dates = self.fetch_dates_with_entries(year, month)
+
+        try:
+                    # Questo metodo esiste solo su MyCalendarWidget
+            self.ui.calendarWidget.setDatesWithEntries(dates)
+        except AttributeError:
+            print("--- ERRORE ---")
+            print("MyCalendarWidget non è stato 'promosso'.")
+            print("Non posso disegnare i triangolini.")
 
     def carica_riepilogo_giornaliero(self):
         """
@@ -171,7 +226,6 @@ class PaginaHome(QWidget):
                     nome_cliente = f"{info['Cognome']} {info['Nome']}"
                 else:
                     nome_cliente = "N/D"
-
                 # --- Aggiungi l'intestazione del progetto ---
                 widget_header = RiepilogoProgettoWidget(progetto_on, nome_cliente, ore_progetto)
                 item_header = QListWidgetItem()
@@ -179,11 +233,12 @@ class PaginaHome(QWidget):
                 self.ui.listWidget_Riepilogo.addItem(item_header)
                 self.ui.listWidget_Riepilogo.setItemWidget(item_header, widget_header)
 
-
-
-
                 for intervento in gruppo["interventi"]:
                     descrizione_intervento = intervento["InterventoDescrizione"] or intervento["ProgettoDescrizione"]
+#                    if intervento["InterventoDescrizione"]:
+ #                       descrizione_da_usare = intervento["InterventoDescrizione"]
+  #                  else:
+   #                     descrizione_da_usare = intervento["ProgettoDescrizione"]
                     widget_intervento = RiepilogoInterventoWidget(
                                             intervento_id=intervento["intervento_id"],
                                             progetto_on=intervento["NumeroON"],
@@ -204,6 +259,40 @@ class PaginaHome(QWidget):
         finally:
             if conn:
                 conn.close()
+    @Slot()
+    def meseCambiato(self):
+        self.ui.calendarWidget.setCurrentPage(
+            self.ui.spinBoxAnno.value(), self.ui.mesi.currentIndex()+1)
+        # Non è necessario chiamare update_calendar_markers() qui,
+        # perché il segnale currentPageChanged scatterà e lo farà.
+
+    @Slot(int, int) # Il segnale passa anno e mese
+    def dataCambiataDaCalendario(self, year, month):
+        """ Chiamato quando l'utente cambia mese/anno sul calendario. """
+        # Blocca i segnali di spinBox/mesi per evitare loop
+        self.ui.mesi.blockSignals(True)
+        self.ui.spinBoxAnno.blockSignals(True)
+
+        self.ui.mesi.setCurrentIndex(month - 1)
+        self.ui.spinBoxAnno.setValue(year)
+
+        self.ui.mesi.blockSignals(False)
+        self.ui.spinBoxAnno.blockSignals(False)
+
+        self.ui.labelData.setText(
+        self.ui.calendarWidget.selectedDate().toString("dd.MM.yyyy"))
+
+        # Aggiorna i marcatori per il nuovo mese visualizzato
+        self.update_calendar_markers()
+
+    @Slot()
+    def cambioDataDaSpinBox(self):
+        self.ui.calendarWidget.setCurrentPage(
+            self.ui.spinBoxAnno.value(), self.ui.mesi.currentIndex()+1)
+        # Non è necessario chiamare update_calendar_markers() qui.
+
+
+
 
     @Slot(QListWidgetItem)
     def on_riepilogo_item_clicked(self, item):
