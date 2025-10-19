@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'pagina1.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.6.0
+## Created by: Qt User Interface Compiler version 6.8.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -16,8 +16,9 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QAbstractSpinBox, QApplication, QCalendarWidget, QComboBox,
-    QHBoxLayout, QLabel, QSizePolicy, QSpacerItem,
-    QSpinBox, QToolButton, QVBoxLayout, QWidget)
+    QHBoxLayout, QLabel, QListWidget, QListWidgetItem,
+    QSizePolicy, QSpacerItem, QSpinBox, QToolButton,
+    QVBoxLayout, QWidget)
 
 class Ui_Pagina01(object):
     def setupUi(self, Pagina01):
@@ -31,7 +32,7 @@ class Ui_Pagina01(object):
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.horizontalSpacer_4 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_4 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout.addItem(self.horizontalSpacer_4)
 
@@ -44,7 +45,7 @@ class Ui_Pagina01(object):
 
         self.horizontalLayout.addWidget(self.labelData)
 
-        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout.addItem(self.horizontalSpacer)
 
@@ -59,7 +60,7 @@ class Ui_Pagina01(object):
 
         self.horizontalLayout_2.addWidget(self.prevMonth)
 
-        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_2.addItem(self.horizontalSpacer_2)
 
@@ -86,14 +87,14 @@ class Ui_Pagina01(object):
         self.spinBoxAnno.setObjectName(u"spinBoxAnno")
         self.spinBoxAnno.setFont(font1)
         self.spinBoxAnno.setReadOnly(False)
-        self.spinBoxAnno.setButtonSymbols(QAbstractSpinBox.PlusMinus)
+        self.spinBoxAnno.setButtonSymbols(QAbstractSpinBox.ButtonSymbols.PlusMinus)
         self.spinBoxAnno.setKeyboardTracking(True)
         self.spinBoxAnno.setMinimum(2010)
         self.spinBoxAnno.setMaximum(9999)
 
         self.horizontalLayout_2.addWidget(self.spinBoxAnno)
 
-        self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_2.addItem(self.horizontalSpacer_3)
 
@@ -117,10 +118,15 @@ class Ui_Pagina01(object):
         self.calendarWidget.setStyleSheet(u"")
         self.calendarWidget.setMinimumDate(QDate(2010, 9, 14))
         self.calendarWidget.setGridVisible(True)
-        self.calendarWidget.setHorizontalHeaderFormat(QCalendarWidget.LongDayNames)
+        self.calendarWidget.setHorizontalHeaderFormat(QCalendarWidget.HorizontalHeaderFormat.LongDayNames)
         self.calendarWidget.setNavigationBarVisible(False)
 
         self.verticalLayout.addWidget(self.calendarWidget)
+
+        self.listWidget_Riepilogo = QListWidget(Pagina01)
+        self.listWidget_Riepilogo.setObjectName(u"listWidget_Riepilogo")
+
+        self.verticalLayout.addWidget(self.listWidget_Riepilogo)
 
 
         self.retranslateUi(Pagina01)

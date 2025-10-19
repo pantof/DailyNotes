@@ -24,7 +24,7 @@
      <item>
       <spacer name="horizontalSpacer_4">
        <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+        <enum>Qt::Orientation::Horizontal</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>
@@ -50,7 +50,7 @@
      <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+        <enum>Qt::Orientation::Horizontal</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>
@@ -80,7 +80,7 @@
      <item>
       <spacer name="horizontalSpacer_2">
        <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+        <enum>Qt::Orientation::Horizontal</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>
@@ -178,7 +178,7 @@
         <bool>false</bool>
        </property>
        <property name="buttonSymbols">
-        <enum>QAbstractSpinBox::PlusMinus</enum>
+        <enum>QAbstractSpinBox::ButtonSymbols::PlusMinus</enum>
        </property>
        <property name="keyboardTracking">
         <bool>true</bool>
@@ -194,7 +194,7 @@
      <item>
       <spacer name="horizontalSpacer_3">
        <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+        <enum>Qt::Orientation::Horizontal</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>
@@ -243,12 +243,15 @@
       <bool>true</bool>
      </property>
      <property name="horizontalHeaderFormat">
-      <enum>QCalendarWidget::LongDayNames</enum>
+      <enum>QCalendarWidget::HorizontalHeaderFormat::LongDayNames</enum>
      </property>
      <property name="navigationBarVisible">
       <bool>false</bool>
      </property>
     </widget>
+   </item>
+   <item>
+    <widget class="QListWidget" name="listWidget_Riepilogo"/>
    </item>
   </layout>
  </widget>

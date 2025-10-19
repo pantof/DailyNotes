@@ -42,6 +42,10 @@
         "Include/obj/tabelle/TabellaEquipment.py",
         "Include/obj/tabelle/TabellaProgetti.py",
         "Include/widgets/Dettagli/progetto/Dettaglio_progetto.ui",
-        "Include/widgets/Dettagli/progetto/ui_Dettaglio_progetto.py"
+        "Include/widgets/Dettagli/progetto/ui_Dettaglio_progetto.py",
+        "Include/widgets/RiepilogoItemWidget.py",
+        "Include/widgets/RiepilogoProgettoWidget.py",
+        "Include/widgets/RiepilogoInterventoWidget.py",
+        "Include/uis/dlgs/ManualeInterventoDialog.py"
     ]
 }

@@ -16,6 +16,7 @@ from Include.func.changeColor import changeSVGColor
 from ui_form import Ui_MainWindow
 from Include.uis.Orologio.DisplayOrologio import DisplayOrologio
 from Include.widgets.giornaliero import GiornalieroWidget
+from Include.uis.pagine.pagina1 import PaginaHome
 
 import rc_risorse
 
@@ -28,8 +29,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.readSettings()
         self.setupWindow()
+        pagina_home = PaginaHome(db_name=self.DBName)
 
-        self.stackedWidget.insertWidget(0, PaginaHome())
+        pagina_home.intervento_manuale_da_salvare.connect(self.save_manual_intervento)
+
+        self.stackedWidget.insertWidget(0, pagina_home)
         self.stackedWidget.insertWidget(1, Pagina2())
         pagina_edit = PaginaEdit(db_name=self.DBName)
         pagina_edit.progetto_da_salvare.connect(self.save_new_project)
@@ -229,6 +233,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
             conn.commit()
             print("Dati intervento e totale progetto aggiornati con successo.")
+            self.stackedWidget.widget(0).refresh_data()
 
         except sqlite3.Error as e:
             print(f"Errore nel salvataggio dell'intervento: {e}")
@@ -236,6 +241,58 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                                     f"Impossibile salvare l'intervento: {e}")
             if conn:
                 conn.rollback()  # Annulla le modifiche in caso di errore
+        finally:
+            if conn:
+                conn.close()
+
+    @Slot(dict)
+    def save_manual_intervento(self, data):
+        """
+        Salva un intervento inserito manualmente dal dialogo di Pagina1.
+        """
+        print(f"MAINWINDOW: Salvataggio intervento manuale: {data}")
+        conn = None
+        try:
+            conn = sqlite3.connect(self.DBName)
+            curs = conn.cursor()
+
+            # 1. Inserisci il nuovo intervento (segnando 'Manuale' come ora)
+            sql_insert_intervento = """
+            INSERT INTO interventi
+                (progetto_on, data_intervento, ora_inizio, ora_fine, ore_lavorate_decimal)
+            VALUES (?, ?, ?, ?, ?)
+            """
+            curs.execute(sql_insert_intervento, (
+                data["progetto_on"],
+                data["data_intervento"],
+                "Manuale",  # Ora inizio
+                "",         # Ora fine
+                data["ore_lavorate"]
+            ))
+
+            # 2. Aggiorna il totale 'OreUtilizzate' nella tabella 'progetti'
+            sql_update_progetto = """
+            UPDATE progetti
+            SET OreUtilizzate = CAST(IFNULL(OreUtilizzate, '0') AS REAL) + ?
+            WHERE NumeroON = ?
+            """
+            curs.execute(sql_update_progetto, (
+                data["ore_lavorate"],
+                data["progetto_on"]
+            ))
+
+            conn.commit()
+            print("Intervento manuale e totale progetto aggiornati.")
+
+            # 3. Aggiorna il riepilogo in Pagina1
+            self.stackedWidget.widget(0).refresh_data()
+
+        except sqlite3.Error as e:
+            print(f"Errore nel salvataggio dell'intervento manuale: {e}")
+            QMessageBox.critical(self, "Errore Database",
+                                 f"Impossibile salvare l'intervento: {e}")
+            if conn:
+                conn.rollback()
         finally:
             if conn:
                 conn.close()
