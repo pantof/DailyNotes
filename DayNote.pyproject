@@ -46,6 +46,7 @@
         "Include/widgets/RiepilogoItemWidget.py",
         "Include/widgets/RiepilogoProgettoWidget.py",
         "Include/widgets/RiepilogoInterventoWidget.py",
-        "Include/uis/dlgs/ManualeInterventoDialog.py"
+        "Include/uis/dlgs/ManualeInterventoDialog.py",
+        "Include/uis/dlgs/ModificaInterventoDialog.py"
     ]
 }

@@ -16,7 +16,7 @@ from Include.func.changeColor import changeSVGColor
 from ui_form import Ui_MainWindow
 from Include.uis.Orologio.DisplayOrologio import DisplayOrologio
 from Include.widgets.giornaliero import GiornalieroWidget
-from Include.uis.pagine.pagina1 import PaginaHome
+#from Include.uis.pagine.pagina1 import PaginaHome
 
 import rc_risorse
 
@@ -29,9 +29,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.readSettings()
         self.setupWindow()
-        pagina_home = PaginaHome(db_name=self.DBName)
 
+        pagina_home = PaginaHome(db_name=self.DBName)
         pagina_home.intervento_manuale_da_salvare.connect(self.save_manual_intervento)
+        pagina_home.intervento_da_modificare.connect(self.update_intervento)
+        pagina_home.intervento_da_eliminare.connect(self.delete_intervento)
 
         self.stackedWidget.insertWidget(0, pagina_home)
         self.stackedWidget.insertWidget(1, Pagina2())
@@ -500,6 +502,92 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             print(f"Errore nel salvataggio dell'equipment: {e}")
             QMessageBox.critical(self, "Errore Database",
                                              f"Impossibile salvare l'equipment: {e}")
+            if conn:
+                conn.rollback()
+        finally:
+            if conn:
+                conn.close()
+
+    @Slot(dict)
+    def update_intervento(self, data):
+        """ Aggiorna un intervento esistente nel database. """
+        print(f"MAINWINDOW: Aggiornamento intervento: {data}")
+        conn = None
+        try:
+            conn = sqlite3.connect(self.DBName)
+            curs = conn.cursor()
+
+            # 1. Aggiorna l'intervento
+            sql_update_intervento = """
+                            UPDATE interventi
+                            SET ore_lavorate_decimal = ?, Descrizione = ?, ora_inizio = ?, ora_fine = ?
+                            WHERE intervento_id = ?
+            """
+            curs.execute(sql_update_intervento, (
+                                data["ore_nuove"],
+                                data["descrizione_nuova"],
+                                "Manuale",  # Sovrascrive ora inizio/fine
+                                "",
+                                data["intervento_id"]
+            ))
+
+            # 2. Ricalcola il totale sul progetto
+            diff_ore = data["ore_nuove"] - data["ore_vecchie"]
+            sql_update_progetto = """
+                            UPDATE progetti
+                            SET OreUtilizzate = CAST(IFNULL(OreUtilizzate, '0') AS REAL) + ?
+                            WHERE NumeroON = ?
+                            """
+            curs.execute(sql_update_progetto, (diff_ore, data["progetto_on"]))
+
+            conn.commit()
+            print("Intervento e totale progetto aggiornati.")
+
+            # 3. Aggiorna il riepilogo
+            self.stackedWidget.widget(0).refresh_data()
+
+        except sqlite3.Error as e:
+            print(f"Errore in update_intervento: {e}")
+            QMessageBox.critical(self, "Errore Database", f"Impossibile aggiornare: {e}")
+            if conn:
+                conn.rollback()
+        finally:
+            if conn:
+                conn.close()
+
+    @Slot(dict)
+    def delete_intervento(self, data):
+        """ Elimina un intervento dal database. """
+        print(f"MAINWINDOW: Eliminazione intervento: {data}")
+        conn = None
+        try:
+            conn = sqlite3.connect(self.DBName)
+            curs = conn.cursor()
+
+                            # 1. Elimina l'intervento
+            curs.execute("DELETE FROM interventi WHERE intervento_id = ?",
+                                         (data["intervento_id"],))
+
+                            # 2. Sottrai le ore dal totale del progetto
+            sql_update_progetto = """
+                            UPDATE progetti
+                            SET OreUtilizzate = CAST(IFNULL(OreUtilizzate, '0') AS REAL) - ?
+                            WHERE NumeroON = ?
+                            """
+            curs.execute(sql_update_progetto, (
+                                data["ore_da_rimuovere"],
+                                data["progetto_on"]
+                            ))
+
+            conn.commit()
+            print("Intervento eliminato e totale progetto aggiornato.")
+
+                            # 3. Aggiorna il riepilogo
+            self.stackedWidget.widget(0).refresh_data()
+
+        except sqlite3.Error as e:
+            print(f"Errore in delete_intervento: {e}")
+            QMessageBox.critical(self, "Errore Database", f"Impossibile eliminare: {e}")
             if conn:
                 conn.rollback()
         finally:

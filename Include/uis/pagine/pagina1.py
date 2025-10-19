@@ -2,15 +2,17 @@
 # import sys
 import sqlite3
 from collections import defaultdict
-from PySide6.QtWidgets import QWidget, QListWidgetItem, QLabel
-from PySide6.QtCore import Slot, QDate, Qt, Signal
+from PySide6.QtWidgets import QWidget, QListWidgetItem, QLabel, QMenu, QMessageBox
+from PySide6.QtCore import Slot, QDate, Qt, Signal, QPoint
 from PySide6.QtGui import QTextCharFormat, QColor, QBrush, QPalette
+from PySide6.QtGui import QAction
 # from PySide6 import Qt
 # void QCalendarWidget::setCurrentPage(int year, int month)
 
 from Include.uis.pagine.ui_pagina1 import Ui_Pagina01
 from Include.widgets.RiepilogoItemWidget import RiepilogoItemWidget
 from Include.func.changeColor import changeSVGColor
+from Include.uis.dlgs.ModificaInterventoDialog import ModificaInterventoDialog
 from Include.widgets.RiepilogoProgettoWidget import RiepilogoProgettoWidget
 from Include.widgets.RiepilogoInterventoWidget import RiepilogoInterventoWidget
 from Include.uis.dlgs.ManualeInterventoDialog import ManualeInterventoDialog
@@ -24,6 +26,8 @@ https://stackoverflow.com/questions/58165586/highlight-date-interval-in-a-qt5-ca
 
 class PaginaHome(QWidget):
     intervento_manuale_da_salvare = Signal(dict)
+    intervento_da_modificare = Signal(dict)
+    intervento_da_eliminare = Signal(dict)
     def __init__(self, db_name):
         super().__init__()
         self.ui = Ui_Pagina01()
@@ -59,6 +63,8 @@ class PaginaHome(QWidget):
             self.cambioSelezioneCalendario)
         self.ui.spinBoxAnno.valueChanged.connect(self.cambioDataDaSpinBox)
         try:
+            self.ui.listWidget_Riepilogo.setContextMenuPolicy(Qt.CustomContextMenu)
+            self.ui.listWidget_Riepilogo.customContextMenuRequested.connect(self.on_riepilogo_context_menu)
             self.ui.listWidget_Riepilogo.itemClicked.connect(self.on_riepilogo_item_clicked)
         except AttributeError:
             print("Errore: 'listWidget_Riepilogo' non trovato.")
@@ -122,15 +128,16 @@ class PaginaHome(QWidget):
             curs = conn.cursor()
 
             sql = """
-            SELECT
-                            P.Descrizione, P.NumeroON,
+                        SELECT
+                            P.Descrizione AS ProgettoDescrizione, P.NumeroON,
+                            I.intervento_id, I.Descrizione AS InterventoDescrizione,
                             I.ore_lavorate_decimal, I.ora_inizio, I.ora_fine,
                             C.Azienda, C.Nome, C.Cognome
                         FROM interventi I
                         JOIN progetti P ON I.progetto_on = P.NumeroON
                         LEFT JOIN clienti C ON P.Cliente_id = C.rowid
                         WHERE I.data_intervento = ?
-                        ORDER BY I.ora_inizio
+                        ORDER BY P.NumeroON, I.ora_inizio
                 """
             curs.execute(sql, (data_selezionata,))
             interventi = curs.fetchall()
@@ -176,19 +183,20 @@ class PaginaHome(QWidget):
 
 
                 for intervento in gruppo["interventi"]:
+                    descrizione_intervento = intervento["InterventoDescrizione"] or intervento["ProgettoDescrizione"]
                     widget_intervento = RiepilogoInterventoWidget(
-                                        intervento["Descrizione"],
-                                        intervento["ora_inizio"],
-                                        intervento["ora_fine"],
-                                        intervento["ore_lavorate_decimal"]
+                                            intervento_id=intervento["intervento_id"],
+                                            progetto_on=intervento["NumeroON"],
+                                            descrizione=descrizione_intervento,
+                                            ora_inizio=intervento["ora_inizio"],
+                                            ora_fine=intervento["ora_fine"],
+                                            ore=intervento["ore_lavorate_decimal"]
                     )
                     item_intervento = QListWidgetItem()
                     item_intervento.setSizeHint(widget_intervento.sizeHint())
                     self.ui.listWidget_Riepilogo.addItem(item_intervento)
                     self.ui.listWidget_Riepilogo.setItemWidget(item_intervento, widget_intervento)
             label_totale_giornata.setText(f"TOTALE GIORNATA: {ore_giornata_totali:.2f} ore")
-
-
 
         except sqlite3.Error as e:
             print(f"Errore carica_riepilogo_giornaliero: {e}")
@@ -225,8 +233,69 @@ class PaginaHome(QWidget):
                     }
                     # Emetti il segnale
                     self.intervento_manuale_da_salvare.emit(dati_intervento)
+    @Slot(QPoint)
+    def on_riepilogo_context_menu(self, pos):
+        item = self.ui.listWidget_Riepilogo.itemAt(pos)
+        if not item:
+            return
+        widget = self.ui.listWidget_Riepilogo.itemWidget(item)
 
+        # Vogliamo il menu solo sugli interventi, non sulle intestazioni
+        if isinstance(widget, RiepilogoInterventoWidget):
+            menu = QMenu()
 
+            # Azione Modifica
+            action_modifica = QAction("Modifica intervento", self)
+            action_modifica.triggered.connect(lambda: self.modifica_intervento(widget))
+            menu.addAction(action_modifica)
+
+            # Azione Elimina
+            action_elimina = QAction("Elimina intervento", self)
+            action_elimina.triggered.connect(lambda: self.elimina_intervento(widget))
+            menu.addAction(action_elimina)
+
+            menu.exec_(self.ui.listWidget_Riepilogo.mapToGlobal(pos))
+
+    def modifica_intervento(self, widget: RiepilogoInterventoWidget):
+        """ Lancia il dialogo di modifica ed emette il segnale. """
+        data_selezionata = self.ui.calendarWidget.selectedDate().toString("yyyy-MM-dd")
+
+        dialog = ModificaInterventoDialog(
+                        progetto_on=widget.progetto_on,
+                        data=data_selezionata,
+                        ore_attuali=widget.ore,
+                        descrizione_attuale=widget.descrizione,
+                        parent=self
+        )
+
+        if dialog.exec():
+            nuovi_dati = dialog.get_data()
+
+            # Prepara il pacchetto dati per MainWindow
+            dati_update = {
+                            "intervento_id": widget.intervento_id,
+                            "progetto_on": widget.progetto_on,
+                            "ore_vecchie": widget.ore,
+                            "ore_nuove": nuovi_dati["ore_nuove"],
+                            "descrizione_nuova": nuovi_dati["descrizione_nuova"]
+            }
+            self.intervento_da_modificare.emit(dati_update)
+
+    def elimina_intervento(self, widget: RiepilogoInterventoWidget):
+        """ Chiede conferma ed emette il segnale di eliminazione. """
+        reply = QMessageBox.question(self, "Conferma Eliminazione",
+                                            "Sei sicuro di voler eliminare questo intervento?\n"
+                                            f"\nProgetto: {widget.progetto_on}"
+                                            f"\nOre: {widget.ore:.2f}",
+                                            QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+
+        if reply == QMessageBox.Yes:
+            dati_delete = {
+                            "intervento_id": widget.intervento_id,
+                            "progetto_on": widget.progetto_on,
+                            "ore_da_rimuovere": widget.ore
+            }
+            self.intervento_da_eliminare.emit(dati_delete)
 
 if __name__ == "__main__":
     pass
