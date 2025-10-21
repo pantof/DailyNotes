@@ -17,8 +17,8 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QAbstractSpinBox, QApplication, QCalendarWidget, QComboBox,
     QHBoxLayout, QLabel, QListWidget, QListWidgetItem,
-    QSizePolicy, QSpacerItem, QSpinBox, QToolButton,
-    QVBoxLayout, QWidget)
+    QPushButton, QSizePolicy, QSpacerItem, QSpinBox,
+    QToolButton, QVBoxLayout, QWidget)
 
 from Include.obj.MyCalendarWidget import MyCalendarWidget
 
@@ -125,6 +125,12 @@ class Ui_Pagina01(object):
 
         self.verticalLayout.addWidget(self.calendarWidget)
 
+        self.exportMonthButton = QPushButton(Pagina01)
+        self.exportMonthButton.setObjectName(u"exportMonthButton")
+        self.exportMonthButton.setIconSize(QSize(24, 24))
+
+        self.verticalLayout.addWidget(self.exportMonthButton)
+
         self.listWidget_Riepilogo = QListWidget(Pagina01)
         self.listWidget_Riepilogo.setObjectName(u"listWidget_Riepilogo")
 
@@ -156,5 +162,6 @@ class Ui_Pagina01(object):
         self.mesi.setItemText(11, QCoreApplication.translate("Pagina01", u"dicembre", None))
 
         self.nextMonth.setText("")
+        self.exportMonthButton.setText(QCoreApplication.translate("Pagina01", u"Esporta Mese (Excel)", None))
     # retranslateUi
 

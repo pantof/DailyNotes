@@ -2,7 +2,7 @@
 # import sys
 import sqlite3
 from collections import defaultdict
-from PySide6.QtWidgets import QWidget, QListWidgetItem, QLabel, QMenu, QMessageBox
+from PySide6.QtWidgets import QWidget, QListWidgetItem, QLabel, QMenu, QMessageBox, QFileDialog
 from PySide6.QtCore import Slot, QDate, Qt, Signal, QPoint
 from PySide6.QtGui import QTextCharFormat, QColor, QBrush, QPalette
 from PySide6.QtGui import QAction
@@ -25,9 +25,12 @@ https://stackoverflow.com/questions/58165586/highlight-date-interval-in-a-qt5-ca
 
 
 class PaginaHome(QWidget):
+
     intervento_manuale_da_salvare = Signal(dict)
     intervento_da_modificare = Signal(dict)
     intervento_da_eliminare = Signal(dict)
+    export_month_requested = Signal(dict)
+
     def __init__(self, db_name):
         super().__init__()
         self.ui = Ui_Pagina01()
@@ -56,6 +59,8 @@ class PaginaHome(QWidget):
             changeSVGColor(":/svg/Include/ico/arrow-right.svg"))
         self.ui.prevMonth.setIcon(
             changeSVGColor(":/svg/Include/ico/arrow-left.svg"))
+        self.ui.exportMonthButton.setIcon(
+            changeSVGColor(":/svg/Include/ico/download.svg"))
 
 
         self.ui.mesi.currentIndexChanged.connect(self.meseCambiato)
@@ -70,6 +75,10 @@ class PaginaHome(QWidget):
             self.ui.listWidget_Riepilogo.itemClicked.connect(self.on_riepilogo_item_clicked)
         except AttributeError:
             print("Errore: 'listWidget_Riepilogo' non trovato.")
+        try:
+            self.ui.exportMonthButton.clicked.connect(self.on_export_month_clicked)
+        except AttributeError:
+            print("Errore: 'exportMonthButton' non trovato in pagina1.ui")
 
         self.carica_riepilogo_giornaliero()
         self.update_calendar_markers() # <-- Carica i marcatori all'avvio
@@ -385,6 +394,39 @@ class PaginaHome(QWidget):
                             "ore_da_rimuovere": widget.ore
             }
             self.intervento_da_eliminare.emit(dati_delete)
+
+
+    @Slot()
+    def on_export_month_clicked(self):
+        """
+        Chiamato dal pulsante "Esporta Mese (CSV)".
+        Apre un QFileDialog e poi emette un segnale.
+        """
+        year = self.ui.calendarWidget.yearShown()
+        month = self.ui.calendarWidget.monthShown()
+
+        # Suggerisci un nome file
+        default_filename = f"Report_Ore_{year}-{month:02d}.xlsx"
+
+        # Apri la finestra di dialogo per salvare il file
+        file_path, _ = QFileDialog.getSaveFileName(
+            self,
+            "Salva Report Mensile",
+            default_filename,
+            "File Excel (*.xlsx);;Tutti i file (*)"
+        )
+
+        # Se l'utente ha scelto un percorso e premuto "Salva"
+        if file_path:
+            dati_export = {
+                "year": year,
+                "month": month,
+                "file_path": file_path
+            }
+                # Emetti il segnale per MainWindow
+            self.export_month_requested.emit(dati_export)
+
+
 
 if __name__ == "__main__":
     pass

@@ -1,7 +1,8 @@
 # This Python file uses the following encoding: utf-8
 import sys
 import sqlite3
-
+from openpyxl import Workbook
+from openpyxl.styles import Font
 
 from PySide6.QtWidgets import (QApplication, QMainWindow, QMessageBox, QWidget, QSizePolicy, QListWidgetItem, QMenu, QSystemTrayIcon)
 from PySide6.QtGui import QPalette, QIcon, QColor, QAction
@@ -34,6 +35,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         pagina_home.intervento_manuale_da_salvare.connect(self.save_manual_intervento)
         pagina_home.intervento_da_modificare.connect(self.update_intervento)
         pagina_home.intervento_da_eliminare.connect(self.delete_intervento)
+        pagina_home.export_month_requested.connect(self.handle_export_month)
 
         self.stackedWidget.insertWidget(0, pagina_home)
         self.stackedWidget.insertWidget(1, Pagina2())
@@ -608,6 +610,114 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.writeSettings()
         event.accept()
 
+    @Slot(dict)
+    def handle_export_month(self, data):
+        """
+        Riceve la richiesta di export, esegue la query e scrive il file CSV.
+        """
+        year = data["year"]
+        month = data["month"]
+        file_path = data["file_path"]
+
+        print(f"MAINWINDOW: Ricevuta richiesta export per {year}-{month} su file {file_path}")
+
+        # Definisci l'intervallo di date
+        start_date = f"{year}-{month:02d}-01"
+        end_date = f"{year}-{month:02d}-31" # Funziona anche per mesi più corti
+
+        conn = None
+        try:
+            conn = sqlite3.connect(self.DBName)
+            conn.row_factory = sqlite3.Row
+            curs = conn.cursor()
+
+            # Query completa per recuperare tutti i dati necessari
+            sql = """
+            SELECT
+                    I.data_intervento,
+                    P.NumeroON,
+                    C.Azienda,
+                    C.Nome,
+                    C.Cognome,
+                    P.Descrizione AS ProgettoDescrizione,
+                    I.Descrizione AS InterventoDescrizione,
+                    I.ora_inizio,
+                    I.ora_fine,
+                    I.ore_lavorate_decimal
+                FROM interventi I
+                JOIN progetti P ON I.progetto_on = P.NumeroON
+                LEFT JOIN clienti C ON P.Cliente_id = C.rowid
+                WHERE I.data_intervento BETWEEN ? AND ?
+                ORDER BY I.data_intervento, P.NumeroON, I.ora_inizio
+            """
+
+            curs.execute(sql, (start_date, end_date))
+            interventi = curs.fetchall()
+
+            if not interventi:
+                QMessageBox.information(self, "Export", "Nessun intervento trovato per questo mese.")
+                return
+
+            # Scrivi il file
+            wb = Workbook()
+            ws = wb.active
+            ws.title = f"Report {year}-{month}"
+
+            header = [
+                    "Data", "Progetto (ON)", "Cliente",
+                    "Descrizione Progetto", "Descrizione Intervento",
+                    "Ora Inizio", "Ora Fine", "Ore Lavorate (Decimali)"
+            ]
+            ws.append(header)
+            for cell in ws["1:1"]: # Seleziona la prima riga
+                cell.font = Font(bold=True)
+
+
+
+
+            total_hours = 0.0
+            for row in interventi:
+                # Costruisci il nome cliente
+                if row["Azienda"]:
+                    nome_cliente = row["Azienda"]
+                elif row["Cognome"]:
+                    nome_cliente = f"{row['Cognome']} {row['Nome']}"
+                else:
+                    nome_cliente = "N/D"
+
+                        # Usa la descrizione dell'intervento se c'è, altrimenti quella del progetto
+                descrizione = row["InterventoDescrizione"] or row["ProgettoDescrizione"]
+                ore_lavorate = row["ore_lavorate_decimal"]
+                total_hours += ore_lavorate
+                riga_dati = [
+                                        row["data_intervento"],
+                                        row["NumeroON"],
+                                        nome_cliente,
+                                        row["ProgettoDescrizione"],
+                                        descrizione,
+                                        row["ora_inizio"],
+                                        row["ora_fine"],
+                                        ore_lavorate # Salva come numero
+                ]
+                ws.append(riga_dati)
+            ws.append([])
+            riga_totale = ["", "", "", "", "", "", "TOTALE ORE:", total_hours]
+            ws.append(riga_totale)
+            ws["G" + str(ws.max_row)].font = Font(bold=True) # Grassetto "TOTALE ORE"
+            ws["H" + str(ws.max_row)].font = Font(bold=True) # Grassetto il numero
+            wb.save(file_path)
+
+            QMessageBox.information(self, "Export Completato",
+                                        f"Report Excel salvato con successo in:\n{file_path}")
+
+        except Exception as e:
+            print(f"Errore in handle_export_month (Excel): {e}")
+            QMessageBox.critical(self, "Errore Export",
+                                     f"Impossibile generare il file Excel:\n{e}\n\n"
+                                     "(Assicurati che il file non sia già aperto).")
+        finally:
+            if conn:
+                conn.close()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
