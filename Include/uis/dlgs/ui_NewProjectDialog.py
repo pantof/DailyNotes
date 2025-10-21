@@ -24,7 +24,7 @@ class Ui_Dialog(object):
     def setupUi(self, Dialog):
         if not Dialog.objectName():
             Dialog.setObjectName(u"Dialog")
-        Dialog.resize(400, 242)
+        Dialog.resize(400, 287)
         sizePolicy = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -40,55 +40,65 @@ class Ui_Dialog(object):
         self.groupBox.setObjectName(u"groupBox")
         self.gridLayout = QGridLayout(self.groupBox)
         self.gridLayout.setObjectName(u"gridLayout")
-        self.label_4 = QLabel(self.groupBox)
-        self.label_4.setObjectName(u"label_4")
+        self.textEdit_Descrizione = QTextEdit(self.groupBox)
+        self.textEdit_Descrizione.setObjectName(u"textEdit_Descrizione")
 
-        self.gridLayout.addWidget(self.label_4, 6, 1, 1, 1)
+        self.gridLayout.addWidget(self.textEdit_Descrizione, 5, 0, 1, 1)
 
         self.lineEdit_NumeroON = QLineEdit(self.groupBox)
         self.lineEdit_NumeroON.setObjectName(u"lineEdit_NumeroON")
 
-        self.gridLayout.addWidget(self.lineEdit_NumeroON, 3, 0, 1, 1)
-
-        self.textEdit_Descrizione = QTextEdit(self.groupBox)
-        self.textEdit_Descrizione.setObjectName(u"textEdit_Descrizione")
-
-        self.gridLayout.addWidget(self.textEdit_Descrizione, 4, 0, 1, 1)
-
-        self.label = QLabel(self.groupBox)
-        self.label.setObjectName(u"label")
-
-        self.gridLayout.addWidget(self.label, 2, 1, 1, 1)
-
-        self.label_2 = QLabel(self.groupBox)
-        self.label_2.setObjectName(u"label_2")
-
-        self.gridLayout.addWidget(self.label_2, 3, 1, 1, 1)
-
-        self.lineEdit_OreDisponibili = QLineEdit(self.groupBox)
-        self.lineEdit_OreDisponibili.setObjectName(u"lineEdit_OreDisponibili")
-
-        self.gridLayout.addWidget(self.lineEdit_OreDisponibili, 6, 0, 1, 1)
+        self.gridLayout.addWidget(self.lineEdit_NumeroON, 4, 0, 1, 1)
 
         self.comboBox_Cliente = QComboBox(self.groupBox)
         self.comboBox_Cliente.setObjectName(u"comboBox_Cliente")
 
-        self.gridLayout.addWidget(self.comboBox_Cliente, 0, 0, 1, 1)
+        self.gridLayout.addWidget(self.comboBox_Cliente, 1, 0, 1, 1)
 
-        self.label_3 = QLabel(self.groupBox)
-        self.label_3.setObjectName(u"label_3")
+        self.label_2 = QLabel(self.groupBox)
+        self.label_2.setObjectName(u"label_2")
 
-        self.gridLayout.addWidget(self.label_3, 4, 1, 1, 1)
+        self.gridLayout.addWidget(self.label_2, 4, 1, 1, 1)
 
         self.comboBox_Equip = QComboBox(self.groupBox)
         self.comboBox_Equip.setObjectName(u"comboBox_Equip")
 
-        self.gridLayout.addWidget(self.comboBox_Equip, 2, 0, 1, 1)
+        self.gridLayout.addWidget(self.comboBox_Equip, 3, 0, 1, 1)
+
+        self.lineEdit_OreDisponibili = QLineEdit(self.groupBox)
+        self.lineEdit_OreDisponibili.setObjectName(u"lineEdit_OreDisponibili")
+
+        self.gridLayout.addWidget(self.lineEdit_OreDisponibili, 7, 0, 1, 1)
+
+        self.label = QLabel(self.groupBox)
+        self.label.setObjectName(u"label")
+
+        self.gridLayout.addWidget(self.label, 3, 1, 1, 1)
 
         self.label_5 = QLabel(self.groupBox)
         self.label_5.setObjectName(u"label_5")
 
-        self.gridLayout.addWidget(self.label_5, 0, 1, 1, 1)
+        self.gridLayout.addWidget(self.label_5, 1, 1, 1, 1)
+
+        self.label_4 = QLabel(self.groupBox)
+        self.label_4.setObjectName(u"label_4")
+
+        self.gridLayout.addWidget(self.label_4, 7, 1, 1, 1)
+
+        self.label_3 = QLabel(self.groupBox)
+        self.label_3.setObjectName(u"label_3")
+
+        self.gridLayout.addWidget(self.label_3, 5, 1, 1, 1)
+
+        self.comboBox_Stato = QComboBox(self.groupBox)
+        self.comboBox_Stato.setObjectName(u"comboBox_Stato")
+
+        self.gridLayout.addWidget(self.comboBox_Stato, 0, 0, 1, 1)
+
+        self.label_6 = QLabel(self.groupBox)
+        self.label_6.setObjectName(u"label_6")
+
+        self.gridLayout.addWidget(self.label_6, 0, 1, 1, 1)
 
 
         self.verticalLayout.addWidget(self.groupBox)
@@ -111,10 +121,11 @@ class Ui_Dialog(object):
     def retranslateUi(self, Dialog):
         Dialog.setWindowTitle(QCoreApplication.translate("Dialog", u"Dialog", None))
         self.groupBox.setTitle(QCoreApplication.translate("Dialog", u"Nuovo Progetto", None))
-        self.label_4.setText(QCoreApplication.translate("Dialog", u"Ore a disposizione", None))
-        self.label.setText(QCoreApplication.translate("Dialog", u"Equipment", None))
         self.label_2.setText(QCoreApplication.translate("Dialog", u"ON", None))
-        self.label_3.setText(QCoreApplication.translate("Dialog", u"Descrizione", None))
+        self.label.setText(QCoreApplication.translate("Dialog", u"Equipment", None))
         self.label_5.setText(QCoreApplication.translate("Dialog", u"Clienti", None))
+        self.label_4.setText(QCoreApplication.translate("Dialog", u"Ore a disposizione", None))
+        self.label_3.setText(QCoreApplication.translate("Dialog", u"Descrizione", None))
+        self.label_6.setText(QCoreApplication.translate("Dialog", u"Stato", None))
     # retranslateUi
 

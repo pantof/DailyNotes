@@ -77,7 +77,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
  #               item, nuovo_giornaliero)
     def loadProgettiIntoPagina2(self):
         """
-        Carica i progetti dal database e li inserisce nella listWidget di Pagina2.
+        Carica i progetti dal database e li inserisce nella listWidget di Pagina2,
+        filtrando solo quelli 'Attivi'.
         """
         # Ottieni l'istanza della pagina 2
         pagina2 = self.stackedWidget.widget(1)
@@ -90,15 +91,24 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             conn.row_factory = sqlite3.Row  # Permette di accedere ai dati per nome colonna
             curs = conn.cursor()
 
-             # Esegui la query per ottenere tutti i progetti
-             # Selezioniamo i campi che servono al GiornalieroWidget
-            curs.execute("SELECT NumeroON, Descrizione, Equip FROM progetti")
+
+            # Esegui la query per ottenere tutti i progetti
+
+            # Selezioniamo i campi che servono al GiornalieroWidget
+            sql = """
+                         SELECT NumeroON, Descrizione, Equip
+                         FROM progetti
+                         WHERE Stato = 'Attivo' OR Stato IS NULL
+                         ORDER BY NumeroON
+                         """
+            curs.execute(sql)
+
             elenco_progetti = curs.fetchall()
 
             if not elenco_progetti:
                  # (Opzionale) Qui potresti mostrare un messaggio
                  # in Pagina2 dicendo "Nessun progetto".
-                print("Nessun progetto trovato nel database.")
+                print("Nessun progetto attivo trovato nel database.")
                 return
 
              # Itera sui risultati e popola la lista
@@ -116,8 +126,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     progetto_on=progetto["NumeroON"]  # Passa l'ID del progetto
                 )
                 # --- COLLEGHIAMO I SEGNALI DEL WIDGET AGLI SLOT DI MAINWINDOW ---
-                nuovo_giornaliero.timer_started.connect(self.on_timer_started)
-                nuovo_giornaliero.timer_stopped.connect(self.on_timer_stopped)
+                nuovo_giornaliero.timer_started.connect(self.handle_timer_started)
+                nuovo_giornaliero.timer_stopped.connect(self.handle_timer_stopped)
                 # -------------------------------------------------------------
 
                  # Crea il QListWidgetItem e aggiungilo alla lista
@@ -183,7 +193,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.about_Qt_action.setIcon(QIcon(":/png/Include/ico/qt/qt_logo.png"))
 
     @Slot(str)
-    def on_timer_started(self, progetto_on):
+    def handle_timer_started(self, progetto_on):
         """
         Slot chiamato quando un timer QUALSIASI parte.
         Qui potresti impedire che altri timer partano.
@@ -193,7 +203,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # ciclare su tutti i widget e disabilitare gli altri "Start"
 
     @Slot(dict)
-    def on_timer_stopped(self, intervento_data):
+    def handle_timer_stopped(self, intervento_data):
         """
         Slot chiamato quando un timer si ferma.
         Qui salviamo i dati nel database.
@@ -385,8 +395,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             # NumeroON, Descrizione, OreDisponibili, OreUtilizzate, Cliente_id, Equip
             sql_insert_progetto = """
                                 INSERT INTO progetti
-                                    (NumeroON, Descrizione, OreDisponibili, OreUtilizzate, Cliente_id, Equip)
-                                VALUES (?, ?, ?, ?, ?, ?)
+                                    (NumeroON, Descrizione, OreDisponibili, OreUtilizzate, Cliente_id, Equip, Stato)
+                                VALUES (?, ?, ?, ?, ?, ?, ?)
                                 """
 
             # OreUtilizzate è 0 all'inizio.
@@ -399,14 +409,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                                     ore_disp_text,
                                     "0",  # OreUtilizzate
                                     data["Cliente_id"], # Temporaneamente un testo
-                                    data["Equip"]       # Temporaneamente un testo
+                                    data["Equip"].       # Temporaneamente un testo
+                                    data["Stato"]
                                 ))
 
             conn.commit()
             print("Nuovo progetto salvato con successo.")
 
             # Opzionale: aggiorna la lista in Pagina2 se è già stata caricata
-            # self.loadProgettiIntoPagina2()
+            self.loadProgettiIntoPagina2()
 
         except sqlite3.IntegrityError as e:
             # Errore comune se il NumeroON è già presente (PRIMARY KEY)

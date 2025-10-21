@@ -10,21 +10,25 @@ def createDataBase(connection):
         # password = "HmgUqvVY8Ceb3zuWjRTw4yckMBJnF2ArDP9tNQf5pshd7LZXxE"
         # connection.execute(f"PRAGMA key='{password}'")
         curs.execute("PRAGMA foreign_keys = ON;")
+
         curs.execute("CREATE TABLE IF NOT EXISTS clienti("
                      "Azienda TEXT, "
                      "Nome TEXT, "
                      "Cognome TEXT, "
                      "indirizzo_id INTEGER, "
                      "FOREIGN KEY(indirizzo_id) REFERENCES indirizzi(rowid));")
+
         curs.execute("CREATE TABLE IF NOT EXISTS indirizzi("
                      "Via TEXT, "
                      "NAP TEXT, "
                      "Comune TEXT);")
+
         curs.execute("CREATE TABLE IF NOT EXISTS equipment("
                      "NumeroEquip TEXT, "
                      "indirizzo_id INTEGER, "
                      "PRIMARY KEY(NumeroEquip) ON CONFLICT REPLACE, "
                      "FOREIGN KEY(indirizzo_id) REFERENCES indirizzi(rowid));")
+
         curs.execute("CREATE TABLE IF NOT EXISTS progetti("
                      "NumeroON TEXT, "
                      "Descrizione TEXT, "
@@ -32,6 +36,7 @@ def createDataBase(connection):
                      "OreUtilizzate TEXT, "
                      "Cliente_id INTEGER, "
                      "Equip TEXT, "
+                     "Stato TEXT, "
                      "PRIMARY KEY(NumeroON) ON CONFLICT REPLACE,"
                      "FOREIGN KEY(Cliente_id) REFERENCES clienti(rowid), "
                      "FOREIGN KEY(Equip) REFERENCES equipment(NumeroEquip));")
@@ -51,6 +56,13 @@ def createDataBase(connection):
         if "Descrizione" not in columns:
             print("Eseguo migrazione: Aggiungo colonna 'Descrizione' a 'interventi'...")
             curs.execute("ALTER TABLE interventi ADD COLUMN Descrizione TEXT")
+
+        curs.execute("PRAGMA table_info(progetti)")
+        columns = [col[1] for col in curs.fetchall()]
+        if "Stato" not in columns:
+            print("Eseguo migrazione: Aggiungo colonna 'Stato' a 'progetti'...")
+            # Aggiunge la colonna e imposta 'Attivo' come default per i progetti esistenti
+            curs.execute("ALTER TABLE progetti ADD COLUMN Stato TEXT DEFAULT 'Attivo'")
 
 
         connection.commit()

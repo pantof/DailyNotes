@@ -4,11 +4,16 @@ from Include.uis.dlgs.ui_NewProjectDialog import Ui_Dialog
 
 
 class NewProjectDialog(QDialog):
+    STATI_PROGETTO = ["Attivo", "Completato", "In Pausa", "Annullato"]
+
     def __init__(self, lista_clienti, lista_equipment):
         super().__init__()
         self.ui = Ui_Dialog()
         self.ui.setupUi(self)
         self.populate_combos(lista_clienti, lista_equipment)
+
+        self.populate_stato()
+
         # --- (Opzionale) Popola i ComboBox ---
                 # Per ora usiamo QLineEdit, ma in futuro
                 # dovresti caricare qui i clienti e gli equipment
@@ -19,6 +24,14 @@ class NewProjectDialog(QDialog):
                 # i QComboBox per clienti e equipment
         pass
 
+    def populate_stato(self):
+        """ Popola il ComboBox dello stato. """
+        try:
+            self.ui.comboBox_Stato.clear()
+            self.ui.comboBox_Stato.addItems(self.STATI_PROGETTO)
+            self.ui.comboBox_Stato.setCurrentText("Attivo") # Default
+        except AttributeError:
+            print("Errore: 'comboBox_Stato' non trovato in NewProjectDialog.ui")
 
     def populate_combos(self, lista_clienti, lista_equipment):
         """ Popola i menu a tendina con i dati. """
@@ -51,7 +64,8 @@ class NewProjectDialog(QDialog):
 
                 # Legge l'ID (userData) salvato nel ComboBox
                 "Cliente_id": self.ui.comboBox_Cliente.currentData(),
-                "Equip": self.ui.comboBox_Equip.currentData()
+                "Equip": self.ui.comboBox_Equip.currentData(),
+                "Stato": self.ui.comboBox_Stato.currentText()
             }
             return data
         except AttributeError as e:

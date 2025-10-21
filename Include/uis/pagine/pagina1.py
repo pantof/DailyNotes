@@ -71,12 +71,12 @@ class PaginaHome(QWidget):
         self.ui.spinBoxAnno.valueChanged.connect(self.cambioDataDaSpinBox)
         try:
             self.ui.listWidget_Riepilogo.setContextMenuPolicy(Qt.CustomContextMenu)
-            self.ui.listWidget_Riepilogo.customContextMenuRequested.connect(self.on_riepilogo_context_menu)
-            self.ui.listWidget_Riepilogo.itemClicked.connect(self.on_riepilogo_item_clicked)
+            self.ui.listWidget_Riepilogo.customContextMenuRequested.connect(self.show_riepilogo_context_menu)
+            self.ui.listWidget_Riepilogo.itemClicked.connect(self.handle_riepilogo_click)
         except AttributeError:
             print("Errore: 'listWidget_Riepilogo' non trovato.")
         try:
-            self.ui.exportMonthButton.clicked.connect(self.on_export_month_clicked)
+            self.ui.exportMonthButton.clicked.connect(self.request_month_export)
         except AttributeError:
             print("Errore: 'exportMonthButton' non trovato in pagina1.ui")
 
@@ -98,12 +98,12 @@ class PaginaHome(QWidget):
         self.ui.calendarWidget.setCurrentPage(
             self.ui.spinBoxAnno.value(), self.ui.mesi.currentIndex()+1)
 
-    @Slot()
-    def dataCambiataDaCalendario(self):
-        self.ui.mesi.setCurrentIndex(self.ui.calendarWidget.monthShown()-1)
-        self.ui.spinBoxAnno.setValue(self.ui.calendarWidget.yearShown())
-        self.ui.labelData.setText(
-            self.ui.calendarWidget.selectedDate().toString("dd.MM.yyyy"))
+ #   @Slot()
+ #   def dataCambiataDaCalendario(self):
+ #       self.ui.mesi.setCurrentIndex(self.ui.calendarWidget.monthShown()-1)
+ #       self.ui.spinBoxAnno.setValue(self.ui.calendarWidget.yearShown())
+ #       self.ui.labelData.setText(
+ #           self.ui.calendarWidget.selectedDate().toString("dd.MM.yyyy"))
         # Cambio data da calendario a combo
 
     @Slot()
@@ -268,12 +268,7 @@ class PaginaHome(QWidget):
         finally:
             if conn:
                 conn.close()
-    @Slot()
-    def meseCambiato(self):
-        self.ui.calendarWidget.setCurrentPage(
-            self.ui.spinBoxAnno.value(), self.ui.mesi.currentIndex()+1)
-        # Non è necessario chiamare update_calendar_markers() qui,
-        # perché il segnale currentPageChanged scatterà e lo farà.
+
 
     @Slot(int, int) # Il segnale passa anno e mese
     def dataCambiataDaCalendario(self, year, month):
@@ -294,17 +289,9 @@ class PaginaHome(QWidget):
         # Aggiorna i marcatori per il nuovo mese visualizzato
         self.update_calendar_markers()
 
-    @Slot()
-    def cambioDataDaSpinBox(self):
-        self.ui.calendarWidget.setCurrentPage(
-            self.ui.spinBoxAnno.value(), self.ui.mesi.currentIndex()+1)
-        # Non è necessario chiamare update_calendar_markers() qui.
-
-
-
 
     @Slot(QListWidgetItem)
-    def on_riepilogo_item_clicked(self, item):
+    def handle_riepilogo_click(self, item):
         """ Chiamato quando l'utente clicca un item nel riepilogo. """
 
         widget = self.ui.listWidget_Riepilogo.itemWidget(item)
@@ -332,7 +319,7 @@ class PaginaHome(QWidget):
                     # Emetti il segnale
                     self.intervento_manuale_da_salvare.emit(dati_intervento)
     @Slot(QPoint)
-    def on_riepilogo_context_menu(self, pos):
+    def show_riepilogo_context_menu(self, pos):
         item = self.ui.listWidget_Riepilogo.itemAt(pos)
         if not item:
             return
@@ -397,7 +384,7 @@ class PaginaHome(QWidget):
 
 
     @Slot()
-    def on_export_month_clicked(self):
+    def request_month_export(self):
         """
         Chiamato dal pulsante "Esporta Mese (CSV)".
         Apre un QFileDialog e poi emette un segnale.

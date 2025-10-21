@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 17.0.2, 2025-10-17T20:23:15. -->
+<!-- Written by QtCreator 17.0.2, 2025-10-21T15:32:50. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -597,6 +597,101 @@
      <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
      <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/panto/OneDrive/Documenti/GitHub/DailyNotes</value>
     </valuemap>
+    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.30">
+     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
+     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
+     <value type="int" key="Analyzer.Valgrind.Callgrind.CostFormat">0</value>
+     <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
+     <valuelist type="QVariantList" key="CustomOutputParsers"/>
+     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
+     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
+     <value type="bool" key="PE.EnvironmentAspect.PrintOnRun">false</value>
+     <value type="QString" key="PerfRecordArgsId">-e cpu-cycles --call-graph &quot;dwarf,4096&quot; -F 250</value>
+     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Include\widgets\RiepilogoItemWidget.py</value>
+     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration.</value>
+     <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">C:/Users/panto/OneDrive/Documenti/GitHub/DailyNotes/Include/widgets/RiepilogoItemWidget.py</value>
+     <value type="bool" key="ProjectExplorer.RunConfiguration.Customized">false</value>
+     <value type="QString" key="PythonEditor.RunConfiguation.Script">C:\Users\panto\OneDrive\Documenti\GitHub\DailyNotes\Include\widgets\RiepilogoItemWidget.py</value>
+     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
+     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
+     <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/panto/OneDrive/Documenti/GitHub/DailyNotes/Include/widgets</value>
+    </valuemap>
+    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.31">
+     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
+     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
+     <value type="int" key="Analyzer.Valgrind.Callgrind.CostFormat">0</value>
+     <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
+     <valuelist type="QVariantList" key="CustomOutputParsers"/>
+     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
+     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
+     <value type="bool" key="PE.EnvironmentAspect.PrintOnRun">false</value>
+     <value type="QString" key="PerfRecordArgsId">-e cpu-cycles --call-graph &quot;dwarf,4096&quot; -F 250</value>
+     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Include\widgets\RiepilogoProgettoWidget.py</value>
+     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration.</value>
+     <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">C:/Users/panto/OneDrive/Documenti/GitHub/DailyNotes/Include/widgets/RiepilogoProgettoWidget.py</value>
+     <value type="bool" key="ProjectExplorer.RunConfiguration.Customized">false</value>
+     <value type="QString" key="PythonEditor.RunConfiguation.Script">C:\Users\panto\OneDrive\Documenti\GitHub\DailyNotes\Include\widgets\RiepilogoProgettoWidget.py</value>
+     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
+     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
+     <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/panto/OneDrive/Documenti/GitHub/DailyNotes/Include/widgets</value>
+    </valuemap>
+    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.32">
+     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
+     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
+     <value type="int" key="Analyzer.Valgrind.Callgrind.CostFormat">0</value>
+     <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
+     <valuelist type="QVariantList" key="CustomOutputParsers"/>
+     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
+     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
+     <value type="bool" key="PE.EnvironmentAspect.PrintOnRun">false</value>
+     <value type="QString" key="PerfRecordArgsId">-e cpu-cycles --call-graph &quot;dwarf,4096&quot; -F 250</value>
+     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Include\widgets\RiepilogoInterventoWidget.py</value>
+     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration.</value>
+     <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">C:/Users/panto/OneDrive/Documenti/GitHub/DailyNotes/Include/widgets/RiepilogoInterventoWidget.py</value>
+     <value type="bool" key="ProjectExplorer.RunConfiguration.Customized">false</value>
+     <value type="QString" key="PythonEditor.RunConfiguation.Script">C:\Users\panto\OneDrive\Documenti\GitHub\DailyNotes\Include\widgets\RiepilogoInterventoWidget.py</value>
+     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
+     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
+     <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/panto/OneDrive/Documenti/GitHub/DailyNotes/Include/widgets</value>
+    </valuemap>
+    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.33">
+     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
+     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
+     <value type="int" key="Analyzer.Valgrind.Callgrind.CostFormat">0</value>
+     <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
+     <valuelist type="QVariantList" key="CustomOutputParsers"/>
+     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
+     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
+     <value type="bool" key="PE.EnvironmentAspect.PrintOnRun">false</value>
+     <value type="QString" key="PerfRecordArgsId">-e cpu-cycles --call-graph &quot;dwarf,4096&quot; -F 250</value>
+     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Include\uis\dlgs\ManualeInterventoDialog.py</value>
+     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration.</value>
+     <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">C:/Users/panto/OneDrive/Documenti/GitHub/DailyNotes/Include/uis/dlgs/ManualeInterventoDialog.py</value>
+     <value type="bool" key="ProjectExplorer.RunConfiguration.Customized">false</value>
+     <value type="QString" key="PythonEditor.RunConfiguation.Script">C:\Users\panto\OneDrive\Documenti\GitHub\DailyNotes\Include\uis\dlgs\ManualeInterventoDialog.py</value>
+     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
+     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
+     <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/panto/OneDrive/Documenti/GitHub/DailyNotes/Include/uis/dlgs</value>
+    </valuemap>
+    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.34">
+     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
+     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
+     <value type="int" key="Analyzer.Valgrind.Callgrind.CostFormat">0</value>
+     <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
+     <valuelist type="QVariantList" key="CustomOutputParsers"/>
+     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
+     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
+     <value type="bool" key="PE.EnvironmentAspect.PrintOnRun">false</value>
+     <value type="QString" key="PerfRecordArgsId">-e cpu-cycles --call-graph &quot;dwarf,4096&quot; -F 250</value>
+     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Include\uis\dlgs\ModificaInterventoDialog.py</value>
+     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration.</value>
+     <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">C:/Users/panto/OneDrive/Documenti/GitHub/DailyNotes/Include/uis/dlgs/ModificaInterventoDialog.py</value>
+     <value type="bool" key="ProjectExplorer.RunConfiguration.Customized">false</value>
+     <value type="QString" key="PythonEditor.RunConfiguation.Script">C:\Users\panto\OneDrive\Documenti\GitHub\DailyNotes\Include\uis\dlgs\ModificaInterventoDialog.py</value>
+     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
+     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
+     <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/panto/OneDrive/Documenti/GitHub/DailyNotes/Include/uis/dlgs</value>
+    </valuemap>
     <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.4">
      <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
      <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
@@ -711,7 +806,7 @@
      <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
      <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/panto/OneDrive/Documenti/GitHub/DailyNotes/Include/func</value>
     </valuemap>
-    <value type="qlonglong" key="ProjectExplorer.Target.RunConfigurationCount">30</value>
+    <value type="qlonglong" key="ProjectExplorer.Target.RunConfigurationCount">35</value>
     <value type="QString" key="python">C:/Program Files/Python313/python.exe</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.BuildConfiguration.1">
@@ -1210,6 +1305,101 @@
      <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
      <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/panto/OneDrive/Documenti/GitHub/DailyNotes</value>
     </valuemap>
+    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.30">
+     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
+     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
+     <value type="int" key="Analyzer.Valgrind.Callgrind.CostFormat">0</value>
+     <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
+     <valuelist type="QVariantList" key="CustomOutputParsers"/>
+     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
+     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
+     <value type="bool" key="PE.EnvironmentAspect.PrintOnRun">false</value>
+     <value type="QString" key="PerfRecordArgsId">-e cpu-cycles --call-graph &quot;dwarf,4096&quot; -F 250</value>
+     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Include\widgets\RiepilogoItemWidget.py</value>
+     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration.</value>
+     <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">C:/Users/panto/OneDrive/Documenti/GitHub/DailyNotes/Include/widgets/RiepilogoItemWidget.py</value>
+     <value type="bool" key="ProjectExplorer.RunConfiguration.Customized">false</value>
+     <value type="QString" key="PythonEditor.RunConfiguation.Script">C:\Users\panto\OneDrive\Documenti\GitHub\DailyNotes\Include\widgets\RiepilogoItemWidget.py</value>
+     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
+     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
+     <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/panto/OneDrive/Documenti/GitHub/DailyNotes/Include/widgets</value>
+    </valuemap>
+    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.31">
+     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
+     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
+     <value type="int" key="Analyzer.Valgrind.Callgrind.CostFormat">0</value>
+     <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
+     <valuelist type="QVariantList" key="CustomOutputParsers"/>
+     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
+     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
+     <value type="bool" key="PE.EnvironmentAspect.PrintOnRun">false</value>
+     <value type="QString" key="PerfRecordArgsId">-e cpu-cycles --call-graph &quot;dwarf,4096&quot; -F 250</value>
+     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Include\widgets\RiepilogoProgettoWidget.py</value>
+     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration.</value>
+     <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">C:/Users/panto/OneDrive/Documenti/GitHub/DailyNotes/Include/widgets/RiepilogoProgettoWidget.py</value>
+     <value type="bool" key="ProjectExplorer.RunConfiguration.Customized">false</value>
+     <value type="QString" key="PythonEditor.RunConfiguation.Script">C:\Users\panto\OneDrive\Documenti\GitHub\DailyNotes\Include\widgets\RiepilogoProgettoWidget.py</value>
+     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
+     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
+     <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/panto/OneDrive/Documenti/GitHub/DailyNotes/Include/widgets</value>
+    </valuemap>
+    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.32">
+     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
+     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
+     <value type="int" key="Analyzer.Valgrind.Callgrind.CostFormat">0</value>
+     <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
+     <valuelist type="QVariantList" key="CustomOutputParsers"/>
+     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
+     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
+     <value type="bool" key="PE.EnvironmentAspect.PrintOnRun">false</value>
+     <value type="QString" key="PerfRecordArgsId">-e cpu-cycles --call-graph &quot;dwarf,4096&quot; -F 250</value>
+     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Include\widgets\RiepilogoInterventoWidget.py</value>
+     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration.</value>
+     <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">C:/Users/panto/OneDrive/Documenti/GitHub/DailyNotes/Include/widgets/RiepilogoInterventoWidget.py</value>
+     <value type="bool" key="ProjectExplorer.RunConfiguration.Customized">false</value>
+     <value type="QString" key="PythonEditor.RunConfiguation.Script">C:\Users\panto\OneDrive\Documenti\GitHub\DailyNotes\Include\widgets\RiepilogoInterventoWidget.py</value>
+     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
+     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
+     <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/panto/OneDrive/Documenti/GitHub/DailyNotes/Include/widgets</value>
+    </valuemap>
+    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.33">
+     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
+     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
+     <value type="int" key="Analyzer.Valgrind.Callgrind.CostFormat">0</value>
+     <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
+     <valuelist type="QVariantList" key="CustomOutputParsers"/>
+     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
+     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
+     <value type="bool" key="PE.EnvironmentAspect.PrintOnRun">false</value>
+     <value type="QString" key="PerfRecordArgsId">-e cpu-cycles --call-graph &quot;dwarf,4096&quot; -F 250</value>
+     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Include\uis\dlgs\ManualeInterventoDialog.py</value>
+     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration.</value>
+     <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">C:/Users/panto/OneDrive/Documenti/GitHub/DailyNotes/Include/uis/dlgs/ManualeInterventoDialog.py</value>
+     <value type="bool" key="ProjectExplorer.RunConfiguration.Customized">false</value>
+     <value type="QString" key="PythonEditor.RunConfiguation.Script">C:\Users\panto\OneDrive\Documenti\GitHub\DailyNotes\Include\uis\dlgs\ManualeInterventoDialog.py</value>
+     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
+     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
+     <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/panto/OneDrive/Documenti/GitHub/DailyNotes/Include/uis/dlgs</value>
+    </valuemap>
+    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.34">
+     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
+     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
+     <value type="int" key="Analyzer.Valgrind.Callgrind.CostFormat">0</value>
+     <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
+     <valuelist type="QVariantList" key="CustomOutputParsers"/>
+     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
+     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
+     <value type="bool" key="PE.EnvironmentAspect.PrintOnRun">false</value>
+     <value type="QString" key="PerfRecordArgsId">-e cpu-cycles --call-graph &quot;dwarf,4096&quot; -F 250</value>
+     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Include\uis\dlgs\ModificaInterventoDialog.py</value>
+     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration.</value>
+     <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">C:/Users/panto/OneDrive/Documenti/GitHub/DailyNotes/Include/uis/dlgs/ModificaInterventoDialog.py</value>
+     <value type="bool" key="ProjectExplorer.RunConfiguration.Customized">false</value>
+     <value type="QString" key="PythonEditor.RunConfiguation.Script">C:\Users\panto\OneDrive\Documenti\GitHub\DailyNotes\Include\uis\dlgs\ModificaInterventoDialog.py</value>
+     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
+     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
+     <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/panto/OneDrive/Documenti/GitHub/DailyNotes/Include/uis/dlgs</value>
+    </valuemap>
     <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.4">
      <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
      <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
@@ -1324,7 +1514,7 @@
      <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
      <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/panto/OneDrive/Documenti/GitHub/DailyNotes/Include/func</value>
     </valuemap>
-    <value type="qlonglong" key="ProjectExplorer.Target.RunConfigurationCount">30</value>
+    <value type="qlonglong" key="ProjectExplorer.Target.RunConfigurationCount">35</value>
     <value type="QString" key="python">C:/Users/panto/OneDrive/Documenti/GitHub/DailyNotes/.qtcreator/Python_3_13_64_bit_venv/Scripts/python.exe</value>
     <value type="QString" key="venv">C:/Users/panto/OneDrive/Documenti/GitHub/DailyNotes/.qtcreator/Python_3_13_64_bit_venv</value>
    </valuemap>
@@ -1798,6 +1988,101 @@
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
     <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/panto/OneDrive/Documenti/GitHub/DailyNotes</value>
    </valuemap>
+   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.30">
+    <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
+    <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
+    <value type="int" key="Analyzer.Valgrind.Callgrind.CostFormat">0</value>
+    <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
+    <valuelist type="QVariantList" key="CustomOutputParsers"/>
+    <value type="int" key="PE.EnvironmentAspect.Base">2</value>
+    <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
+    <value type="bool" key="PE.EnvironmentAspect.PrintOnRun">false</value>
+    <value type="QString" key="PerfRecordArgsId">-e cpu-cycles --call-graph &quot;dwarf,4096&quot; -F 250</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Include\widgets\RiepilogoItemWidget.py</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration.</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">C:/Users/panto/OneDrive/Documenti/GitHub/DailyNotes/Include/widgets/RiepilogoItemWidget.py</value>
+    <value type="bool" key="ProjectExplorer.RunConfiguration.Customized">false</value>
+    <value type="QString" key="PythonEditor.RunConfiguation.Script">C:\Users\panto\OneDrive\Documenti\GitHub\DailyNotes\Include\widgets\RiepilogoItemWidget.py</value>
+    <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
+    <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/panto/OneDrive/Documenti/GitHub/DailyNotes/Include/widgets</value>
+   </valuemap>
+   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.31">
+    <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
+    <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
+    <value type="int" key="Analyzer.Valgrind.Callgrind.CostFormat">0</value>
+    <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
+    <valuelist type="QVariantList" key="CustomOutputParsers"/>
+    <value type="int" key="PE.EnvironmentAspect.Base">2</value>
+    <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
+    <value type="bool" key="PE.EnvironmentAspect.PrintOnRun">false</value>
+    <value type="QString" key="PerfRecordArgsId">-e cpu-cycles --call-graph &quot;dwarf,4096&quot; -F 250</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Include\widgets\RiepilogoProgettoWidget.py</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration.</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">C:/Users/panto/OneDrive/Documenti/GitHub/DailyNotes/Include/widgets/RiepilogoProgettoWidget.py</value>
+    <value type="bool" key="ProjectExplorer.RunConfiguration.Customized">false</value>
+    <value type="QString" key="PythonEditor.RunConfiguation.Script">C:\Users\panto\OneDrive\Documenti\GitHub\DailyNotes\Include\widgets\RiepilogoProgettoWidget.py</value>
+    <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
+    <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/panto/OneDrive/Documenti/GitHub/DailyNotes/Include/widgets</value>
+   </valuemap>
+   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.32">
+    <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
+    <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
+    <value type="int" key="Analyzer.Valgrind.Callgrind.CostFormat">0</value>
+    <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
+    <valuelist type="QVariantList" key="CustomOutputParsers"/>
+    <value type="int" key="PE.EnvironmentAspect.Base">2</value>
+    <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
+    <value type="bool" key="PE.EnvironmentAspect.PrintOnRun">false</value>
+    <value type="QString" key="PerfRecordArgsId">-e cpu-cycles --call-graph &quot;dwarf,4096&quot; -F 250</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Include\widgets\RiepilogoInterventoWidget.py</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration.</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">C:/Users/panto/OneDrive/Documenti/GitHub/DailyNotes/Include/widgets/RiepilogoInterventoWidget.py</value>
+    <value type="bool" key="ProjectExplorer.RunConfiguration.Customized">false</value>
+    <value type="QString" key="PythonEditor.RunConfiguation.Script">C:\Users\panto\OneDrive\Documenti\GitHub\DailyNotes\Include\widgets\RiepilogoInterventoWidget.py</value>
+    <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
+    <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/panto/OneDrive/Documenti/GitHub/DailyNotes/Include/widgets</value>
+   </valuemap>
+   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.33">
+    <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
+    <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
+    <value type="int" key="Analyzer.Valgrind.Callgrind.CostFormat">0</value>
+    <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
+    <valuelist type="QVariantList" key="CustomOutputParsers"/>
+    <value type="int" key="PE.EnvironmentAspect.Base">2</value>
+    <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
+    <value type="bool" key="PE.EnvironmentAspect.PrintOnRun">false</value>
+    <value type="QString" key="PerfRecordArgsId">-e cpu-cycles --call-graph &quot;dwarf,4096&quot; -F 250</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Include\uis\dlgs\ManualeInterventoDialog.py</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration.</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">C:/Users/panto/OneDrive/Documenti/GitHub/DailyNotes/Include/uis/dlgs/ManualeInterventoDialog.py</value>
+    <value type="bool" key="ProjectExplorer.RunConfiguration.Customized">false</value>
+    <value type="QString" key="PythonEditor.RunConfiguation.Script">C:\Users\panto\OneDrive\Documenti\GitHub\DailyNotes\Include\uis\dlgs\ManualeInterventoDialog.py</value>
+    <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
+    <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/panto/OneDrive/Documenti/GitHub/DailyNotes/Include/uis/dlgs</value>
+   </valuemap>
+   <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.34">
+    <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
+    <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
+    <value type="int" key="Analyzer.Valgrind.Callgrind.CostFormat">0</value>
+    <value type="bool" key="Analyzer.Valgrind.Settings.UseGlobalSettings">true</value>
+    <valuelist type="QVariantList" key="CustomOutputParsers"/>
+    <value type="int" key="PE.EnvironmentAspect.Base">2</value>
+    <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
+    <value type="bool" key="PE.EnvironmentAspect.PrintOnRun">false</value>
+    <value type="QString" key="PerfRecordArgsId">-e cpu-cycles --call-graph &quot;dwarf,4096&quot; -F 250</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Include\uis\dlgs\ModificaInterventoDialog.py</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration.</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">C:/Users/panto/OneDrive/Documenti/GitHub/DailyNotes/Include/uis/dlgs/ModificaInterventoDialog.py</value>
+    <value type="bool" key="ProjectExplorer.RunConfiguration.Customized">false</value>
+    <value type="QString" key="PythonEditor.RunConfiguation.Script">C:\Users\panto\OneDrive\Documenti\GitHub\DailyNotes\Include\uis\dlgs\ModificaInterventoDialog.py</value>
+    <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
+    <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/panto/OneDrive/Documenti/GitHub/DailyNotes/Include/uis/dlgs</value>
+   </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.4">
     <value type="bool" key="Analyzer.Perf.Settings.UseGlobalSettings">true</value>
     <value type="bool" key="Analyzer.QmlProfiler.Settings.UseGlobalSettings">true</value>
@@ -1912,7 +2197,7 @@
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
     <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/panto/OneDrive/Documenti/GitHub/DailyNotes/Include/func</value>
    </valuemap>
-   <value type="qlonglong" key="ProjectExplorer.Target.RunConfigurationCount">30</value>
+   <value type="qlonglong" key="ProjectExplorer.Target.RunConfigurationCount">35</value>
   </valuemap>
  </data>
  <data>
