@@ -36,8 +36,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         pagina_home.intervento_da_modificare.connect(self.update_intervento)
         pagina_home.intervento_da_eliminare.connect(self.delete_intervento)
         pagina_home.export_month_requested.connect(self.handle_export_month)
-        pagina_edit.progetto_stato_da_aggiornare.connect(self.update_project_status)
-        pagina_edit.progetto_da_eliminare_definitivo.connect(self.delete_project)
+
 
         self.stackedWidget.insertWidget(0, pagina_home)
         self.stackedWidget.insertWidget(1, Pagina2())
@@ -45,6 +44,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         pagina_edit.progetto_da_salvare.connect(self.save_new_project)
         pagina_edit.cliente_da_salvare.connect(self.save_new_client)
         pagina_edit.equipment_da_salvare.connect(self.save_new_equipment)
+        pagina_edit.progetto_stato_da_aggiornare.connect(self.update_project_status)
+        #pagina_edit.progetto_da_eliminare_definitivo.connect(self.delete_project)
+        pagina_edit.progetto_da_archiviare.connect(self.archive_project)
+
         self.stackedWidget.insertWidget(2, pagina_edit)
         #self.stackedWidget.insertWidget(2, PaginaEdit())
         self.stackedWidget.setCurrentIndex(0)
@@ -100,9 +103,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             sql = """
                          SELECT NumeroON, Descrizione, Equip
                          FROM progetti
-                         WHERE Stato = 'Attivo' OR Stato IS NULL
+                         WHERE Stato = 'Attivo'
                          ORDER BY NumeroON
                          """
+
             curs.execute(sql)
 
             elenco_progetti = curs.fetchall()
@@ -731,6 +735,43 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         finally:
             if conn:
                 conn.close()
+
+    @Slot(str, str)
+    def update_project_status(self, numero_on, nuovo_stato):
+        """ Aggiorna lo stato di un progetto nel database. """
+        print(f"MAINWINDOW: Aggiornamento stato per {numero_on} a {nuovo_stato}")
+        conn = None
+        try:
+            conn = sqlite3.connect(self.DBName)
+            curs = conn.cursor()
+
+            sql = "UPDATE progetti SET Stato = ? WHERE NumeroON = ?"
+            curs.execute(sql, (nuovo_stato, numero_on))
+            conn.commit()
+
+            # Notifica all'utente
+            QMessageBox.information(self, "Successo",
+                                                    f"Stato del progetto {numero_on} aggiornato a '{nuovo_stato}'.")
+
+            # Ricarica la Pagina2 (timer) per riflettere la modifica
+            self.loadProgettiIntoPagina2()
+
+        except sqlite3.Error as e:
+            QMessageBox.critical(self, "Errore Database", f"Impossibile aggiornare lo stato: {e}")
+            if conn:
+                conn.rollback()
+        finally:
+            if conn:
+                conn.close()
+
+    @Slot(str)
+    def archive_project(self, numero_on):
+        """ Imposta lo stato di un progetto su 'Archiviato'. """
+        print(f"MAINWINDOW: Archiviazione progetto {numero_on}")
+
+        # Possiamo riutilizzare lo slot che aggiorna lo stato!
+        self.update_project_status(numero_on, "Archiviato")
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

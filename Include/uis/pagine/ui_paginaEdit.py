@@ -30,20 +30,25 @@ class Ui_paginaEdit(object):
 
         self.gridLayout.addWidget(self.pushButton_3, 4, 0, 1, 1)
 
-        self.label = QLabel(paginaEdit)
-        self.label.setObjectName(u"label")
+        self.pushButton_1 = QPushButton(paginaEdit)
+        self.pushButton_1.setObjectName(u"pushButton_1")
 
-        self.gridLayout.addWidget(self.label, 0, 0, 1, 1)
+        self.gridLayout.addWidget(self.pushButton_1, 2, 0, 1, 1)
 
         self.pushButton_2 = QPushButton(paginaEdit)
         self.pushButton_2.setObjectName(u"pushButton_2")
 
         self.gridLayout.addWidget(self.pushButton_2, 3, 0, 1, 1)
 
-        self.pushButton_1 = QPushButton(paginaEdit)
-        self.pushButton_1.setObjectName(u"pushButton_1")
+        self.label = QLabel(paginaEdit)
+        self.label.setObjectName(u"label")
 
-        self.gridLayout.addWidget(self.pushButton_1, 2, 0, 1, 1)
+        self.gridLayout.addWidget(self.label, 0, 0, 1, 1)
+
+        self.gestisciProgettiButton = QPushButton(paginaEdit)
+        self.gestisciProgettiButton.setObjectName(u"gestisciProgettiButton")
+
+        self.gridLayout.addWidget(self.gestisciProgettiButton, 5, 0, 1, 1)
 
 
         self.retranslateUi(paginaEdit)
@@ -54,8 +59,9 @@ class Ui_paginaEdit(object):
     def retranslateUi(self, paginaEdit):
         paginaEdit.setWindowTitle(QCoreApplication.translate("paginaEdit", u"Form", None))
         self.pushButton_3.setText(QCoreApplication.translate("paginaEdit", u"PushButton", None))
-        self.label.setText(QCoreApplication.translate("paginaEdit", u"TextLabel", None))
-        self.pushButton_2.setText(QCoreApplication.translate("paginaEdit", u"PushButton", None))
         self.pushButton_1.setText(QCoreApplication.translate("paginaEdit", u"Inserisci nuovo progetto", None))
+        self.pushButton_2.setText(QCoreApplication.translate("paginaEdit", u"PushButton", None))
+        self.label.setText(QCoreApplication.translate("paginaEdit", u"TextLabel", None))
+        self.gestisciProgettiButton.setText(QCoreApplication.translate("paginaEdit", u"Gestisci Progetti Esistenti", None))
     # retranslateUi
 

@@ -14,7 +14,8 @@ class PaginaEdit(QWidget):
     cliente_da_salvare = Signal(dict)
     equipment_da_salvare = Signal(dict)
     progetto_stato_da_aggiornare = Signal(str, str)
-    progetto_da_eliminare_definitivo = Signal(str)
+    #progetto_da_eliminare_definitivo = Signal(str)
+    progetto_da_archiviare = Signal(str)
 
     def __init__(self,db_name):
         super().__init__()
@@ -150,6 +151,7 @@ class PaginaEdit(QWidget):
         # Collega i segnali del dialogo ai segnali di PaginaEdit
         # (che a loro volta saranno connessi a MainWindow)
         dialog.progetto_stato_changed.connect(self.progetto_stato_da_aggiornare)
-        dialog.progetto_da_eliminare.connect(self.progetto_da_eliminare_definitivo)
+        #dialog.progetto_da_eliminare.connect(self.progetto_da_eliminare_definitivo)
+        dialog.progetto_da_archiviare.connect(self.progetto_da_archiviare)
 
         dialog.exec()

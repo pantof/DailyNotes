@@ -2,7 +2,7 @@
 from PySide6.QtWidgets import (QDialog, QVBoxLayout, QTableWidget, QTableWidgetItem,
                                QPushButton, QHBoxLayout, QHeaderView, QMessageBox,
                                QAbstractItemView)
-from PySide6.QtCore import Signal, Slot, Qt
+from PySide6.QtCore import Signal, Slot
 
 class GestioneProgettiDialog(QDialog):
     """
@@ -11,7 +11,8 @@ class GestioneProgettiDialog(QDialog):
     # Segnale emesso con (NumeroON, nuovo_stato)
     progetto_stato_changed = Signal(str, str)
     # Segnale emesso con (NumeroON)
-    progetto_da_eliminare = Signal(str)
+    #progetto_da_eliminare = Signal(str)
+    progetto_da_archiviare = Signal(str)
 
     def __init__(self, db_name, parent=None):
         super().__init__(parent)
@@ -37,16 +38,18 @@ class GestioneProgettiDialog(QDialog):
         # Layout Pulsanti
         button_layout = QHBoxLayout()
         self.modificaStatoButton = QPushButton("Modifica Stato")
-        self.eliminaProgettoButton = QPushButton("Elimina Progetto")
+        #self.eliminaProgettoButton = QPushButton("Elimina Progetto")
+        self.archiviaProgettoButton = QPushButton("Archivia Progetto")
 
         button_layout.addStretch()
         button_layout.addWidget(self.modificaStatoButton)
-        button_layout.addWidget(self.eliminaProgettoButton)
+        button_layout.addWidget(self.archiviaProgettoButton)
         layout.addLayout(button_layout)
 
         # Connessioni
         self.modificaStatoButton.clicked.connect(self.on_modifica_stato)
-        self.eliminaProgettoButton.clicked.connect(self.on_elimina_progetto)
+        #self.eliminaProgettoButton.clicked.connect(self.on_elimina_progetto)
+        self.archiviaProgettoButton.clicked.connect(self.on_archivia_progetto)
 
         # Carica i dati
         self.carica_progetti()
@@ -130,19 +133,20 @@ class GestioneProgettiDialog(QDialog):
             self.carica_progetti()
 
     @Slot()
-    def on_elimina_progetto(self):
+    def on_archivia_progetto(self):
         """ Chiede conferma ed emette un segnale. """
         progetto_on = self.get_selected_project_on()
         if not progetto_on:
             return
 
-        reply = QMessageBox.question(self, "Conferma Eliminazione",
-                                     f"Sei sicuro di voler eliminare il progetto {progetto_on}?\n"
-                                     "ATTENZIONE: Verranno eliminati anche tutti gli interventi associati!",
+        reply = QMessageBox.question(self, "Conferma Archiviazione",
+                                     f"Sei sicuro di voler archiviare il progetto {progetto_on}?\n"
+                                     "Il progetto non sarà più visibile nell'elenco dei timer,\n"
+                                     "ma rimarrà consultabile qui e nei report.",
                                      QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
 
         if reply == QMessageBox.Yes:
-            self.progetto_da_eliminare.emit(progetto_on)
+            self.progetto_da_archiviare.emit(progetto_on)
             # Ricarica la tabella
             self.carica_progetti()
 
