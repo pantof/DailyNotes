@@ -1,18 +1,20 @@
 # This Python file uses the following encoding: utf-8
 import sqlite3
 from PySide6.QtWidgets import QWidget, QMessageBox
-from PySide6.QtCore import Signal
+from PySide6.QtCore import Signal, Slot
 from Include.uis.pagine.ui_paginaEdit import Ui_paginaEdit
 from Include.uis.dlgs.NewProjectDialog import NewProjectDialog
 from Include.uis.dlgs.NuovoClienteDialog import NuovoClienteDialog
 from Include.uis.dlgs.NuovoEquipmentDialog import NuovoEquipmentDialog
 from Include.func.changeColor import changeSVGColor
-
+from Include.uis.dlgs.GestioneProgettiDialog import GestioneProgettiDialog
 
 class PaginaEdit(QWidget):
     progetto_da_salvare = Signal(dict)
     cliente_da_salvare = Signal(dict)
     equipment_da_salvare = Signal(dict)
+    progetto_stato_da_aggiornare = Signal(str, str)
+    progetto_da_eliminare_definitivo = Signal(str)
 
     def __init__(self,db_name):
         super().__init__()
@@ -23,6 +25,10 @@ class PaginaEdit(QWidget):
         self.ui.pushButton_1.clicked.connect(self.lanciaNewProject)
         self.ui.pushButton_2.clicked.connect(self.lanciaNuovoCliente)
         self.ui.pushButton_3.clicked.connect(self.NuovoEquipment)
+        try:
+            self.ui.gestisciProgettiButton.clicked.connect(self.lanciaGestioneProgetti)
+        except AttributeError:
+            print("Errore: 'gestisciProgettiButton' non trovato in paginaEdit.ui")
 
     def lanciaNewProject(self):
         lista_clienti = self.fetch_clienti()
@@ -136,3 +142,14 @@ class PaginaEdit(QWidget):
             if conn:
                 conn.close()
 
+    @Slot()
+    def lanciaGestioneProgetti(self):
+        """ Apre il dialogo di gestione progetti e connette i suoi segnali. """
+        dialog = GestioneProgettiDialog(self.db_name, self)
+
+        # Collega i segnali del dialogo ai segnali di PaginaEdit
+        # (che a loro volta saranno connessi a MainWindow)
+        dialog.progetto_stato_changed.connect(self.progetto_stato_da_aggiornare)
+        dialog.progetto_da_eliminare.connect(self.progetto_da_eliminare_definitivo)
+
+        dialog.exec()
